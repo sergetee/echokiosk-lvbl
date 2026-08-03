@@ -15,8 +15,9 @@ export const PIXEL_FONT: Record<string, string[]> = {
   "7": G("###", "  #", "  #", "  #", "  #"),
   "8": G("###", "# #", "###", "# #", "###"),
   "9": G("###", "# #", "###", "  #", "###"),
-  ":": G("   ", " # ", "   ", " # ", "   "),
-  // Blank colon: same 2-column footprint as ":" so blinking never shifts layout.
+  // Colon: one dot column, two lit dots.
+  ":": G("   ", "#  ", "   ", "#  ", "   "),
+  // Blank colon: same 1-column footprint as ":" so blinking never shifts layout.
   ";": G("   ", "   ", "   ", "   ", "   "),
 
   ".": G("   ", "   ", "   ", "   ", " # "),
