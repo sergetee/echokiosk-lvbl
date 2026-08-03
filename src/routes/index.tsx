@@ -79,7 +79,8 @@ function Kiosk() {
   if (now) {
     const h24 = now.getHours();
     const h = settings.hour24 ? h24 : h24 % 12 === 0 ? 12 : h24 % 12;
-    const sep = settings.blinkColon && now.getSeconds() % 2 === 1 ? " " : ":";
+    // ";" is a blank colon with the same width as ":", so blinking cannot shift digits.
+    const sep = settings.blinkColon && now.getSeconds() % 2 === 1 ? ";" : ":";
     timeText = `${settings.hour24 ? pad(h) : h.toString()}${sep}${pad(now.getMinutes())}`;
     if (settings.showSeconds) timeText += `${sep}${pad(now.getSeconds())}`;
     meridiem = settings.hour24 ? "" : h24 < 12 ? "AM" : "PM";
