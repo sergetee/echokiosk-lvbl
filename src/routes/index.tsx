@@ -75,16 +75,13 @@ function Kiosk() {
 
   let timeText = "";
   let dateText = "";
-  let meridiem = "";
   if (now) {
-    const h24 = now.getHours();
-    const h = settings.hour24 ? h24 : h24 % 12 === 0 ? 12 : h24 % 12;
+    const h = now.getHours();
     // ";" is a blank colon with the same width as ":", so blinking cannot shift digits.
     const sep = settings.blinkColon && now.getSeconds() % 2 === 1 ? ";" : ":";
-    timeText = `${settings.hour24 ? pad(h) : h.toString()}${sep}${pad(now.getMinutes())}`;
+    timeText = `${pad(h)}${sep}${pad(now.getMinutes())}`;
     if (settings.showSeconds) timeText += `${sep}${pad(now.getSeconds())}`;
-    meridiem = settings.hour24 ? "" : h24 < 12 ? "AM" : "PM";
-    dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+    dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
   }
 
   return (
@@ -92,7 +89,7 @@ function Kiosk() {
       className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${
         settings.scanlines ? "kiosk-scanlines" : ""
       }`}
-      style={{ opacity: settings.brightness / 100 }}
+      style={{ opacity: 0.92 }}
     >
       <h1 className="sr-only">Pixel Clock Kiosk</h1>
 
@@ -110,15 +107,6 @@ function Kiosk() {
                 showGrid={settings.showGrid}
                 glow={settings.glow}
               />
-              {meridiem ? (
-                <PixelMatrix
-                  text={meridiem}
-                  size={Math.max(2, Math.round(dotSize * 0.4))}
-                  showGrid={settings.showGrid}
-                  glow={settings.glow}
-                  className="mb-[0.5vh]"
-                />
-              ) : null}
             </div>
             {settings.showDate ? (
               <PixelMatrix
