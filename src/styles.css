@@ -142,3 +142,116 @@
     color: var(--color-foreground);
   }
 }
+
+/* ---------------- Kiosk / pixel clock design system ---------------- */
+
+.kiosk {
+  --kiosk-bg: oklch(0.13 0.02 60);
+  --dot-on: oklch(0.84 0.16 75);
+  --dot-off: oklch(0.22 0.03 65);
+  --dot-glow: oklch(0.8 0.17 70 / 45%);
+  --kiosk-ink: oklch(0.84 0.16 75 / 70%);
+  background: var(--kiosk-bg);
+  color: var(--kiosk-ink);
+}
+
+.kiosk-phosphor {
+  --kiosk-bg: oklch(0.12 0.03 150);
+  --dot-on: oklch(0.86 0.2 145);
+  --dot-off: oklch(0.21 0.04 150);
+  --dot-glow: oklch(0.82 0.2 145 / 45%);
+  --kiosk-ink: oklch(0.86 0.18 145 / 70%);
+}
+
+.kiosk-ice {
+  --kiosk-bg: oklch(0.13 0.03 250);
+  --dot-on: oklch(0.87 0.12 220);
+  --dot-off: oklch(0.22 0.04 245);
+  --dot-glow: oklch(0.82 0.13 220 / 45%);
+  --kiosk-ink: oklch(0.87 0.1 220 / 70%);
+}
+
+.kiosk-magenta {
+  --kiosk-bg: oklch(0.13 0.04 320);
+  --dot-on: oklch(0.8 0.2 340);
+  --dot-off: oklch(0.23 0.05 325);
+  --dot-glow: oklch(0.78 0.2 340 / 45%);
+  --kiosk-ink: oklch(0.82 0.16 340 / 70%);
+}
+
+.kiosk-paper {
+  --kiosk-bg: oklch(0.95 0.01 90);
+  --dot-on: oklch(0.28 0.02 250);
+  --dot-off: oklch(0.87 0.01 90);
+  --dot-glow: oklch(0.3 0.02 250 / 18%);
+  --kiosk-ink: oklch(0.35 0.02 250 / 80%);
+}
+
+.kiosk-scanlines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    oklch(0 0 0 / 22%) 0px,
+    oklch(0 0 0 / 22%) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+.kiosk-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, oklch(0 0 0 / 45%) 100%);
+}
+
+.kiosk-panel {
+  background: oklch(0.16 0.01 260 / 92%);
+  color: oklch(0.97 0 0);
+  border-left: 1px solid oklch(1 0 0 / 12%);
+  backdrop-filter: blur(14px);
+  --border: oklch(1 0 0 / 16%);
+  --muted-foreground: oklch(0.75 0.01 260);
+  --foreground: oklch(0.97 0 0);
+  --secondary: oklch(0.28 0.01 260);
+  --secondary-foreground: oklch(0.97 0 0);
+  --input: oklch(1 0 0 / 22%);
+  --primary: oklch(0.97 0 0);
+  --accent: oklch(0.3 0.01 260);
+  --accent-foreground: oklch(0.97 0 0);
+  --ring: oklch(0.7 0.02 260);
+}
+
+.kiosk-panel kbd {
+  border-radius: 4px;
+  border: 1px solid oklch(1 0 0 / 20%);
+  padding: 1px 5px;
+  font-size: 0.7rem;
+}
+
+@keyframes kiosk-drift {
+  0% {
+    transform: translate(-1.2vw, -1vh);
+  }
+  25% {
+    transform: translate(1.4vw, 0.8vh);
+  }
+  50% {
+    transform: translate(0.6vw, -1.4vh);
+  }
+  75% {
+    transform: translate(-1vw, 1.2vh);
+  }
+  100% {
+    transform: translate(-1.2vw, -1vh);
+  }
+}
+
+.kiosk-drift {
+  animation: kiosk-drift 240s ease-in-out infinite;
+}
+
