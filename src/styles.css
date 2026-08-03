@@ -146,7 +146,7 @@
 /* ---------------- Kiosk / pixel clock design system ---------------- */
 
 .kiosk {
-  --kiosk-bg: oklch(0.13 0.02 60);
+  --kiosk-bg: oklch(0 0 0);
   --dot-on: oklch(0.84 0.16 75);
   --dot-off: oklch(0.22 0.03 65);
   --dot-glow: oklch(0.8 0.17 70 / 45%);
@@ -156,7 +156,7 @@
 }
 
 .kiosk-phosphor {
-  --kiosk-bg: oklch(0.12 0.03 150);
+  --kiosk-bg: oklch(0 0 0);
   --dot-on: oklch(0.86 0.2 145);
   --dot-off: oklch(0.21 0.04 150);
   --dot-glow: oklch(0.82 0.2 145 / 45%);
@@ -164,7 +164,7 @@
 }
 
 .kiosk-ice {
-  --kiosk-bg: oklch(0.13 0.03 250);
+  --kiosk-bg: oklch(0 0 0);
   --dot-on: oklch(0.87 0.12 220);
   --dot-off: oklch(0.22 0.04 245);
   --dot-glow: oklch(0.82 0.13 220 / 45%);
@@ -172,7 +172,7 @@
 }
 
 .kiosk-magenta {
-  --kiosk-bg: oklch(0.13 0.04 320);
+  --kiosk-bg: oklch(0 0 0);
   --dot-on: oklch(0.8 0.2 340);
   --dot-off: oklch(0.23 0.05 325);
   --dot-glow: oklch(0.78 0.2 340 / 45%);
@@ -180,11 +180,11 @@
 }
 
 .kiosk-paper {
-  --kiosk-bg: oklch(0.95 0.01 90);
-  --dot-on: oklch(0.28 0.02 250);
-  --dot-off: oklch(0.87 0.01 90);
-  --dot-glow: oklch(0.3 0.02 250 / 18%);
-  --kiosk-ink: oklch(0.35 0.02 250 / 80%);
+  --kiosk-bg: oklch(0 0 0);
+  --dot-on: oklch(0.98 0 0);
+  --dot-off: oklch(0.22 0 0);
+  --dot-glow: oklch(0.95 0 0 / 45%);
+  --kiosk-ink: oklch(0.95 0 0 / 70%);
 }
 
 .kiosk-scanlines::after {
