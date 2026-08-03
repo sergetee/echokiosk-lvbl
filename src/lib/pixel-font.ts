@@ -15,8 +15,9 @@ export const PIXEL_FONT: Record<string, string[]> = {
   "7": G("###", "  #", "  #", "  #", "  #"),
   "8": G("###", "# #", "###", "# #", "###"),
   "9": G("###", "# #", "###", "  #", "###"),
-  ":": G("   ", " # ", "   ", " # ", "   "),
-  // Blank colon: same 2-column footprint as ":" so blinking never shifts layout.
+  // Colon: one dot column, two lit dots.
+  ":": G("   ", "#  ", "   ", "#  ", "   "),
+  // Blank colon: same 1-column footprint as ":" so blinking never shifts layout.
   ";": G("   ", "   ", "   ", "   ", "   "),
 
   ".": G("   ", "   ", "   ", "   ", " # "),
@@ -60,7 +61,7 @@ export function layout(text: string): { dots: Dot[]; width: number; height: numb
   let cursor = 0;
   for (const ch of chars) {
     const glyph = PIXEL_FONT[ch] ?? PIXEL_FONT[" "]!;
-    const w = ch === ":" || ch === ";" || ch === "." ? 2 : GLYPH_W;
+    const w = ch === ":" || ch === ";" ? 1 : ch === "." ? 2 : GLYPH_W;
     for (let y = 0; y < GLYPH_H; y++) {
       for (let x = 0; x < w; x++) {
         dots.push({ x: cursor + x, y, on: glyph[y]![x] === "#" });
