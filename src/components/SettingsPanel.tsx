@@ -56,9 +56,6 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
         ))}
       </div>
 
-      <Row label="24-hour">
-        <Switch checked={settings.hour24} onCheckedChange={(v) => update("hour24", v)} />
-      </Row>
       <Row label="Seconds">
         <Switch checked={settings.showSeconds} onCheckedChange={(v) => update("showSeconds", v)} />
       </Row>
@@ -83,7 +80,6 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
           [
             ["Size", "scale", 40, 160],
             ["Glow", "glow", 0, 100],
-            ["Brightness", "brightness", 25, 100],
           ] as const
         ).map(([label, key, min, max]) => (
           <div key={key}>

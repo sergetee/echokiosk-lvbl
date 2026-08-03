@@ -4,12 +4,10 @@ export type ThemeName = "amber" | "phosphor" | "ice" | "magenta" | "paper";
 
 export type ClockSettings = {
   theme: ThemeName;
-  hour24: boolean;
   showSeconds: boolean;
   showDate: boolean;
   showGrid: boolean;
   glow: number; // 0-100
-  brightness: number; // 20-100
   scale: number; // dot size multiplier 40-160
   blinkColon: boolean;
   drift: boolean; // burn-in prevention
@@ -18,19 +16,17 @@ export type ClockSettings = {
 
 export const DEFAULT_SETTINGS: ClockSettings = {
   theme: "amber",
-  hour24: true,
   showSeconds: true,
   showDate: true,
   showGrid: true,
   glow: 55,
-  brightness: 92,
   scale: 100,
   blinkColon: true,
   drift: true,
   scanlines: true,
 };
 
-const KEY = "pixel-kiosk-settings-v1";
+const KEY = "pixel-kiosk-settings-v2";
 
 export function useClockSettings() {
   const [settings, setSettings] = useState<ClockSettings>(DEFAULT_SETTINGS);
