@@ -24,10 +24,10 @@ export function PixelMatrix({ text, size, showGrid, glow, className }: Props) {
       }}
       aria-hidden
     >
-      {dots.map((d, i) =>
+      {dots.map((d) =>
         !d.on && !showGrid ? null : (
           <span
-            key={i}
+            key={`${d.x}-${d.y}`}
             style={{
               position: "absolute",
               left: d.x * pitch,
