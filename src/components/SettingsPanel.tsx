@@ -78,7 +78,7 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
       <div className="mt-4 space-y-5">
         {(
           [
-            ["Size", "scale", 40, 160],
+            ["Size", "scale", 160, 320],
             ["Glow", "glow", 0, 100],
           ] as const
         ).map(([label, key, min, max]) => (
