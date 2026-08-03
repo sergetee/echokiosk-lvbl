@@ -61,10 +61,15 @@ export function layout(text: string): { dots: Dot[]; width: number; height: numb
   let cursor = 0;
   for (const ch of chars) {
     const glyph = PIXEL_FONT[ch] ?? PIXEL_FONT[" "]!;
-    const w = ch === ":" || ch === ";" ? 1 : ch === "." ? 2 : GLYPH_W;
+    const isColon = ch === ":" || ch === ";";
+    const w = isColon ? 1 : ch === "." ? 2 : GLYPH_W;
     for (let y = 0; y < GLYPH_H; y++) {
       for (let x = 0; x < w; x++) {
-        dots.push({ x: cursor + x, y, on: glyph[y]![x] === "#" });
+        const on = glyph[y]![x] === "#";
+        // The colon matrix contains only its two lit dots — no off cells,
+        // so the grid never shows extra dots in the colon column.
+        if (isColon && !on) continue;
+        dots.push({ x: cursor + x, y, on });
       }
     }
     cursor += w + 1;
