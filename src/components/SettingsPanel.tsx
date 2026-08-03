@@ -10,7 +10,7 @@ const THEMES: { id: ThemeName; label: string; swatch: string }[] = [
   { id: "phosphor", label: "Phosphor", swatch: "oklch(0.85 0.2 145)" },
   { id: "ice", label: "Ice", swatch: "oklch(0.85 0.13 220)" },
   { id: "magenta", label: "Magenta", swatch: "oklch(0.78 0.2 340)" },
-  { id: "paper", label: "Paper", swatch: "oklch(0.3 0.01 250)" },
+  { id: "paper", label: "Mono", swatch: "oklch(0.98 0 0)" },
 ];
 
 type Props = {
