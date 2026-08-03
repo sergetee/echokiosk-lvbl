@@ -94,7 +94,7 @@ function Kiosk() {
       <h1 className="sr-only">Pixel Clock Kiosk</h1>
 
       <div
-        className={`flex min-h-screen flex-col items-center justify-center gap-[4vh] ${
+        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${
           settings.drift ? "kiosk-drift" : ""
         }`}
       >
