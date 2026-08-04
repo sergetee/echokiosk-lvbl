@@ -1,8 +1,6 @@
-import { Monitor, RotateCcw, X } from "lucide-react";
+import { RotateCcw, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 
 const THEMES: { id: ThemeName; label: string; swatch: string }[] = [
@@ -13,24 +11,23 @@ const THEMES: { id: ThemeName; label: string; swatch: string }[] = [
   { id: "paper", label: "Mono", swatch: "oklch(0.98 0 0)" },
 ];
 
+const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
+  { key: "showSeconds", label: "Seconds" },
+  { key: "showDate", label: "Date" },
+  { key: "blinkColon", label: "Blink colon" },
+  { key: "showGrid", label: "Dot grid" },
+  { key: "scanlines", label: "Scanlines" },
+  { key: "drift", label: "Anti burn-in" },
+];
+
 type Props = {
   settings: ClockSettings;
   update: <K extends keyof ClockSettings>(k: K, v: ClockSettings[K]) => void;
   reset: () => void;
   onClose: () => void;
-  onFullscreen: () => void;
 };
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center justify-between gap-4 py-2">
-      <Label className="text-xs tracking-[0.18em] uppercase text-muted-foreground">{label}</Label>
-      {children}
-    </div>
-  );
-}
-
-export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }: Props) {
+export function SettingsPanel({ settings, update, reset, onClose }: Props) {
   return (
     <aside className="kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6">
       <div className="mb-2 flex items-center justify-between">
@@ -56,26 +53,27 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
         ))}
       </div>
 
-      <Row label="Seconds">
-        <Switch checked={settings.showSeconds} onCheckedChange={(v) => update("showSeconds", v)} />
-      </Row>
-      <Row label="Date">
-        <Switch checked={settings.showDate} onCheckedChange={(v) => update("showDate", v)} />
-      </Row>
-      <Row label="Blink colon">
-        <Switch checked={settings.blinkColon} onCheckedChange={(v) => update("blinkColon", v)} />
-      </Row>
-      <Row label="Dot grid">
-        <Switch checked={settings.showGrid} onCheckedChange={(v) => update("showGrid", v)} />
-      </Row>
-      <Row label="Scanlines">
-        <Switch checked={settings.scanlines} onCheckedChange={(v) => update("scanlines", v)} />
-      </Row>
-      <Row label="Anti burn-in">
-        <Switch checked={settings.drift} onCheckedChange={(v) => update("drift", v)} />
-      </Row>
+      <div className="grid grid-cols-2 gap-2">
+        {TOGGLES.map(({ key, label }) => {
+          const active = settings[key] as boolean;
+          return (
+            <button
+              key={key}
+              onClick={() => update(key, !active as ClockSettings[typeof key])}
+              aria-pressed={active}
+              className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                active
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border text-muted-foreground hover:border-foreground/60"
+              }`}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
 
-      <div className="mt-4 space-y-5">
+      <div className="mt-6 space-y-5">
         {(
           [
             ["Size", "scale", 160, 320],
@@ -90,7 +88,7 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
             <Slider
               min={min}
               max={max}
-              step={1}
+              step={5}
               value={[settings[key]]}
               onValueChange={([v]) => update(key, v!)}
             />
@@ -98,19 +96,11 @@ export function SettingsPanel({ settings, update, reset, onClose, onFullscreen }
         ))}
       </div>
 
-      <div className="mt-6 flex gap-2">
-        <Button variant="secondary" className="flex-1" onClick={onFullscreen}>
-          <Monitor className="mr-2 size-4" /> Fullscreen
-        </Button>
-        <Button variant="outline" onClick={reset} aria-label="Reset settings">
-          <RotateCcw className="size-4" />
+      <div className="mt-6">
+        <Button variant="outline" className="w-full" onClick={reset}>
+          <RotateCcw className="mr-2 size-4" /> Reset
         </Button>
       </div>
-
-      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
-        Press <kbd>S</kbd> to toggle this panel, <kbd>F</kbd> for fullscreen. Settings are saved on
-        this device, so the kiosk restores them on reboot.
-      </p>
     </aside>
   );
 }

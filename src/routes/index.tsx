@@ -125,7 +125,7 @@ function Kiosk() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Open kiosk settings"
-        className="fixed bottom-6 left-6 z-40 rounded-full border border-current/30 p-3 opacity-25 transition-opacity hover:opacity-100"
+        className="fixed bottom-6 left-6 z-40 rounded-full border border-white/40 bg-black/60 p-3 text-white opacity-70 transition-opacity hover:opacity-100"
       >
         <Settings className="size-5" />
       </button>
@@ -136,7 +136,6 @@ function Kiosk() {
           update={update}
           reset={reset}
           onClose={() => setOpen(false)}
-          onFullscreen={toggleFullscreen}
         />
       ) : null}
     </main>
