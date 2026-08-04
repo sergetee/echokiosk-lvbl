@@ -214,17 +214,28 @@
   color: oklch(0.97 0 0);
   border-left: 1px solid oklch(1 0 0 / 12%);
   backdrop-filter: blur(14px);
+  --background: oklch(0.16 0.01 260);
   --border: oklch(1 0 0 / 16%);
+  --muted: oklch(0.26 0.01 260);
   --muted-foreground: oklch(0.75 0.01 260);
   --foreground: oklch(0.97 0 0);
   --secondary: oklch(0.28 0.01 260);
   --secondary-foreground: oklch(0.97 0 0);
   --input: oklch(1 0 0 / 22%);
   --primary: oklch(0.97 0 0);
+  --primary-foreground: oklch(0.16 0.01 260);
   --accent: oklch(0.3 0.01 260);
   --accent-foreground: oklch(0.97 0 0);
   --ring: oklch(0.7 0.02 260);
 }
+
+.kiosk-fab {
+  border: 1px solid oklch(1 0 0 / 40%);
+  background: oklch(0 0 0 / 55%);
+  color: oklch(0.97 0 0);
+  backdrop-filter: blur(6px);
+}
+
 
 .kiosk-panel kbd {
   border-radius: 4px;
