@@ -63,8 +63,8 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
               aria-pressed={active}
               className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
                 active
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border text-muted-foreground hover:border-foreground/60"
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               }`}
             >
               {label}
@@ -72,6 +72,7 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
           );
         })}
       </div>
+
 
       <div className="mt-6 space-y-5">
         {(
