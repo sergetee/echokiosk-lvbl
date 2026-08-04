@@ -60,16 +60,17 @@ export function layout(text: string): { dots: Dot[]; width: number; height: numb
   const dots: Dot[] = [];
   let cursor = 0;
   for (const ch of chars) {
-    const glyph = PIXEL_FONT[ch] ?? PIXEL_FONT[" "]!;
     const isColon = ch === ":" || ch === ";";
+    // A colon always occupies the two dot cells of ":"; ";" is the same two
+    // cells turned off, so blinking never adds or removes dots.
+    const glyph = isColon ? PIXEL_FONT[":"]! : (PIXEL_FONT[ch] ?? PIXEL_FONT[" "]!);
     const w = isColon ? 1 : ch === "." ? 2 : GLYPH_W;
     for (let y = 0; y < GLYPH_H; y++) {
       for (let x = 0; x < w; x++) {
-        const on = glyph[y]![x] === "#";
-        // The colon matrix contains only its two lit dots — no off cells,
-        // so the grid never shows extra dots in the colon column.
-        if (isColon && !on) continue;
-        dots.push({ x: cursor + x, y, on });
+        const inMask = glyph[y]![x] === "#";
+        // Only the colon's two cells exist, so the grid never shows a full column.
+        if (isColon && !inMask) continue;
+        dots.push({ x: cursor + x, y, on: isColon ? ch === ":" : inMask });
       }
     }
     cursor += w + 1;
