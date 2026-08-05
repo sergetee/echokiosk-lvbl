@@ -85,19 +85,19 @@ function TimeStepper({
   minute,
   onHour,
   onMinute,
+  align,
 }: {
   label: string;
   hour: number;
   minute: number;
   onHour: (v: number) => void;
   onMinute: (v: number) => void;
+  align: "left" | "right";
 }) {
   return (
-    <div className="p-3">
-      <p className="mb-2 text-center text-xs tracking-[0.18em] uppercase text-muted-foreground">
-        {label}
-      </p>
-      <div className="flex items-center justify-center gap-2">
+    <div className={`flex flex-col p-3 ${align === "right" ? "items-end text-right" : "items-start text-left"}`}>
+      <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">{label}</p>
+      <div className="flex items-center gap-2">
         <Stepper value={hour} onChange={onHour} step={1} max={24} cyclic />
         <span className="text-lg">:</span>
         <Stepper value={minute} onChange={onMinute} step={10} max={60} cyclic />
@@ -182,7 +182,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
           <button
             onClick={() => update("dim", !settings.dim)}
             aria-pressed={settings.dim}
-            className={`w-full rounded-md border px-3 py-2 text-xs tracking-[0.18em] uppercase transition-colors ${
+            className={`w-full rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
               settings.dim
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -199,6 +199,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
               minute={settings.dimStartMinute}
               onHour={(v) => update("dimStartHour", v)}
               onMinute={(v) => update("dimStartMinute", v)}
+              align="left"
             />
             <TimeStepper
               label="TILL"
@@ -206,13 +207,14 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
               minute={settings.dimEndMinute}
               onHour={(v) => update("dimEndHour", v)}
               onMinute={(v) => update("dimEndMinute", v)}
+              align="right"
             />
           </div>
         </div>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <div>
+        <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
             value={settings.scale}
@@ -223,7 +225,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
             horizontal
           />
         </div>
-        <div>
+        <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
           <Stepper
             value={settings.glow}
