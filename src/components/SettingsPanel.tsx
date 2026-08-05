@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, RotateCcw, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 
@@ -11,6 +11,7 @@ function Stepper({
   min = 0,
   max,
   cyclic = false,
+  horizontal = false,
 }: {
   value: number;
   onChange: (v: number) => void;
@@ -18,6 +19,7 @@ function Stepper({
   min?: number;
   max: number;
   cyclic?: boolean;
+  horizontal?: boolean;
 }) {
   const change = (delta: number) => {
     const next = value + delta;
@@ -27,13 +29,41 @@ function Stepper({
         : Math.min(max, Math.max(min, next)),
     );
   };
+  const decreaseDisabled = !cyclic && value <= min;
+  const increaseDisabled = !cyclic && value >= max;
+  const buttonClassName =
+    "flex size-11 touch-manipulation items-center justify-center rounded-md border border-border bg-secondary/40 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-40";
+
+  if (horizontal) {
+    return (
+      <div className="flex items-center justify-between gap-2">
+        <button
+          onClick={() => change(-step)}
+          aria-label="Decrease"
+          disabled={decreaseDisabled}
+          className={buttonClassName}
+        >
+          <ChevronLeft className="size-5" />
+        </button>
+        <span className="font-mono text-lg tabular-nums">{pad2(value)}</span>
+        <button
+          onClick={() => change(step)}
+          aria-label="Increase"
+          disabled={increaseDisabled}
+          className={buttonClassName}
+        >
+          <ChevronRight className="size-5" />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-1">
       <button
         onClick={() => change(step)}
         aria-label="Increase"
-        className="flex size-11 touch-manipulation items-center justify-center rounded-md border border-border bg-secondary/40 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        className={buttonClassName}
       >
         <ChevronUp className="size-5" />
       </button>
@@ -41,7 +71,7 @@ function Stepper({
       <button
         onClick={() => change(-step)}
         aria-label="Decrease"
-        className="flex size-11 touch-manipulation items-center justify-center rounded-md border border-border bg-secondary/40 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        className={buttonClassName}
       >
         <ChevronDown className="size-5" />
       </button>
