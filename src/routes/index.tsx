@@ -96,7 +96,7 @@ function Kiosk() {
       className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${
         settings.scanlines ? "kiosk-scanlines" : ""
       }`}
-      style={{ opacity: dimmed ? 0.3 : 0.92, transition: "opacity 1200ms linear" }}
+      style={{ opacity: 0.92 }}
     >
       <h1 className="sr-only">Pixel Clock Kiosk</h1>
 
@@ -104,6 +104,7 @@ function Kiosk() {
         className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${
           settings.drift ? "kiosk-drift" : ""
         }`}
+        style={{ opacity: dimmed ? 0.25 : 1, transition: "opacity 1200ms linear" }}
       >
         {loaded && now ? (
           <>
