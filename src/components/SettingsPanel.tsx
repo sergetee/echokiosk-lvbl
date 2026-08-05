@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, RotateCcw, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 
@@ -93,7 +93,7 @@ function TimeStepper({
   onMinute: (v: number) => void;
 }) {
   return (
-    <div className="bg-secondary/20 p-3">
+    <div className="p-3">
       <p className="mb-2 text-center text-xs tracking-[0.18em] uppercase text-muted-foreground">
         {label}
       </p>
@@ -126,11 +126,10 @@ const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
 type Props = {
   settings: ClockSettings;
   update: <K extends keyof ClockSettings>(k: K, v: ClockSettings[K]) => void;
-  reset: () => void;
   onClose: () => void;
 };
 
-export function SettingsPanel({ settings, update, reset, onClose }: Props) {
+export function SettingsPanel({ settings, update, onClose }: Props) {
   return (
     <aside className="kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6">
       <div className="mb-2 flex items-center justify-between">
@@ -149,7 +148,9 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
             aria-label={t.label}
             title={t.label}
             className={`aspect-square rounded-md border transition-transform hover:scale-105 ${
-              settings.theme === t.id ? "border-foreground" : "border-border"
+              settings.theme === t.id
+                ? "border-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : "border-border"
             }`}
             style={{ background: t.swatch }}
           />
@@ -177,18 +178,17 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
       </div>
 
       <div className="mt-6 rounded-md border border-border p-3">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">Dim</p>
+        <div className="mb-2">
           <button
             onClick={() => update("dim", !settings.dim)}
             aria-pressed={settings.dim}
-            className={`rounded-md border px-3 py-1.5 text-xs tracking-[0.14em] uppercase transition-colors ${
+            className={`w-full rounded-md border px-3 py-2 text-xs tracking-[0.18em] uppercase transition-colors ${
               settings.dim
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             }`}
           >
-            {settings.dim ? "On" : "Off"}
+            DIM
           </button>
         </div>
         <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
@@ -233,12 +233,6 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
             horizontal
           />
         </div>
-      </div>
-
-      <div className="mt-6">
-        <Button variant="outline" className="w-full" onClick={reset}>
-          <RotateCcw className="mr-2 size-4" /> Reset
-        </Button>
       </div>
     </aside>
   );
