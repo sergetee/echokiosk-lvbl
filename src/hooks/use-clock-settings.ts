@@ -12,6 +12,11 @@ export type ClockSettings = {
   blinkColon: boolean;
   drift: boolean; // burn-in prevention
   scanlines: boolean;
+  dim: boolean;
+  dimStartHour: number;
+  dimStartMinute: number;
+  dimEndHour: number;
+  dimEndMinute: number;
 };
 
 export const DEFAULT_SETTINGS: ClockSettings = {
@@ -24,6 +29,11 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   blinkColon: true,
   drift: true,
   scanlines: true,
+  dim: false,
+  dimStartHour: 22,
+  dimStartMinute: 0,
+  dimEndHour: 7,
+  dimEndMinute: 0,
 };
 
 const KEY = "pixel-kiosk-settings-v2";

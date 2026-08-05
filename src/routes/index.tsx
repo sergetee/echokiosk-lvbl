@@ -83,13 +83,20 @@ function Kiosk() {
     if (settings.showSeconds) timeText += `${sep}${pad(now.getSeconds())}`;
     dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
   }
+  let dimmed = false;
+  if (now && settings.dim) {
+    const mins = now.getHours() * 60 + now.getMinutes();
+    const start = settings.dimStartHour * 60 + settings.dimStartMinute;
+    const end = settings.dimEndHour * 60 + settings.dimEndMinute;
+    dimmed = start === end ? false : start < end ? mins >= start && mins < end : mins >= start || mins < end;
+  }
 
   return (
     <main
       className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${
         settings.scanlines ? "kiosk-scanlines" : ""
       }`}
-      style={{ opacity: 0.92 }}
+      style={{ opacity: dimmed ? 0.3 : 0.92, transition: "opacity 1200ms linear" }}
     >
       <h1 className="sr-only">Pixel Clock Kiosk</h1>
 

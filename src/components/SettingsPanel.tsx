@@ -1,7 +1,69 @@
-import { RotateCcw, X } from "lucide-react";
+import { ChevronDown, ChevronUp, RotateCcw, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
+
+const pad2 = (n: number) => n.toString().padStart(2, "0");
+
+function Stepper({
+  value,
+  onChange,
+  step,
+  max,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+  step: number;
+  max: number;
+}) {
+  const wrap = (v: number) => ((v % max) + max) % max;
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <button
+        onClick={() => onChange(wrap(value + step))}
+        aria-label="Increase"
+        className="rounded-md border border-border bg-secondary/40 p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      >
+        <ChevronUp className="size-4" />
+      </button>
+      <span className="font-mono text-lg tabular-nums">{pad2(value)}</span>
+      <button
+        onClick={() => onChange(wrap(value - step))}
+        aria-label="Decrease"
+        className="rounded-md border border-border bg-secondary/40 p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      >
+        <ChevronDown className="size-4" />
+      </button>
+    </div>
+  );
+}
+
+function TimeStepper({
+  label,
+  hour,
+  minute,
+  onHour,
+  onMinute,
+}: {
+  label: string;
+  hour: number;
+  minute: number;
+  onHour: (v: number) => void;
+  onMinute: (v: number) => void;
+}) {
+  return (
+    <div className="rounded-md border border-border bg-secondary/20 p-3">
+      <p className="mb-2 text-center text-xs tracking-[0.18em] uppercase text-muted-foreground">
+        {label}
+      </p>
+      <div className="flex items-center justify-center gap-2">
+        <Stepper value={hour} onChange={onHour} step={1} max={24} />
+        <span className="text-lg">:</span>
+        <Stepper value={minute} onChange={onMinute} step={10} max={60} />
+      </div>
+    </div>
+  );
+}
 
 const THEMES: { id: ThemeName; label: string; swatch: string }[] = [
   { id: "amber", label: "Amber CRT", swatch: "oklch(0.82 0.16 75)" },
@@ -73,6 +135,40 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
         })}
       </div>
 
+      <div className="mt-6">
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">Dim</p>
+          <button
+            onClick={() => update("dim", !settings.dim)}
+            aria-pressed={settings.dim}
+            className={`rounded-md border px-3 py-1.5 text-xs tracking-[0.14em] uppercase transition-colors ${
+              settings.dim
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            }`}
+          >
+            {settings.dim ? "On" : "Off"}
+          </button>
+        </div>
+        <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
+          <div className="grid grid-cols-2 gap-3">
+            <TimeStepper
+              label="Start"
+              hour={settings.dimStartHour}
+              minute={settings.dimStartMinute}
+              onHour={(v) => update("dimStartHour", v)}
+              onMinute={(v) => update("dimStartMinute", v)}
+            />
+            <TimeStepper
+              label="End"
+              hour={settings.dimEndHour}
+              minute={settings.dimEndMinute}
+              onHour={(v) => update("dimEndHour", v)}
+              onMinute={(v) => update("dimEndMinute", v)}
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="mt-6 space-y-5">
         {(
