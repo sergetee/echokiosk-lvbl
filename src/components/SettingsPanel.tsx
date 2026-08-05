@@ -134,13 +134,13 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
   return (
     <aside className="kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6">
       <div className="mb-2 flex items-center justify-between">
-        <h2 className="text-sm font-semibold tracking-[0.22em] uppercase">Kiosk setup</h2>
+        <h2 className="text-sm font-semibold tracking-[0.22em] uppercase">SETTINGS</h2>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
           <X className="size-4" />
         </Button>
       </div>
 
-      <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">Palette</p>
+      <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
       <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
         {THEMES.map((t) => (
           <button
