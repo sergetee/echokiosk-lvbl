@@ -182,7 +182,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
           <button
             onClick={() => update("dim", !settings.dim)}
             aria-pressed={settings.dim}
-            className={`w-full rounded-md border px-3 py-2 text-xs tracking-[0.18em] uppercase transition-colors ${
+            className={`w-full rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
               settings.dim
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
