@@ -1,5 +1,4 @@
 import { ChevronDown, ChevronUp, RotateCcw, X } from "lucide-react";
-import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 
@@ -9,30 +8,42 @@ function Stepper({
   value,
   onChange,
   step,
+  min = 0,
   max,
+  cyclic = false,
 }: {
   value: number;
   onChange: (v: number) => void;
   step: number;
+  min?: number;
   max: number;
+  cyclic?: boolean;
 }) {
-  const wrap = (v: number) => ((v % max) + max) % max;
+  const change = (delta: number) => {
+    const next = value + delta;
+    onChange(
+      cyclic
+        ? ((next % max) + max) % max
+        : Math.min(max, Math.max(min, next)),
+    );
+  };
+
   return (
     <div className="flex flex-col items-center gap-1">
       <button
-        onClick={() => onChange(wrap(value + step))}
+        onClick={() => change(step)}
         aria-label="Increase"
-        className="rounded-md border border-border bg-secondary/40 p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        className="flex size-11 touch-manipulation items-center justify-center rounded-md border border-border bg-secondary/40 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
       >
-        <ChevronUp className="size-4" />
+        <ChevronUp className="size-5" />
       </button>
       <span className="font-mono text-lg tabular-nums">{pad2(value)}</span>
       <button
-        onClick={() => onChange(wrap(value - step))}
+        onClick={() => change(-step)}
         aria-label="Decrease"
-        className="rounded-md border border-border bg-secondary/40 p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        className="flex size-11 touch-manipulation items-center justify-center rounded-md border border-border bg-secondary/40 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
       >
-        <ChevronDown className="size-4" />
+        <ChevronDown className="size-5" />
       </button>
     </div>
   );
@@ -57,9 +68,9 @@ function TimeStepper({
         {label}
       </p>
       <div className="flex items-center justify-center gap-2">
-        <Stepper value={hour} onChange={onHour} step={1} max={24} />
+        <Stepper value={hour} onChange={onHour} step={1} max={24} cyclic />
         <span className="text-lg">:</span>
-        <Stepper value={minute} onChange={onMinute} step={10} max={60} />
+        <Stepper value={minute} onChange={onMinute} step={10} max={60} cyclic />
       </div>
     </div>
   );
@@ -170,27 +181,32 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
         </div>
       </div>
 
-      <div className="mt-6 space-y-5">
-        {(
-          [
-            ["Size", "scale", 160, 320],
-            ["Glow", "glow", 0, 100],
-          ] as const
-        ).map(([label, key, min, max]) => (
-          <div key={key}>
-            <div className="mb-2 flex justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground">
-              <span>{label}</span>
-              <span>{settings[key]}</span>
-            </div>
-            <Slider
-              min={min}
-              max={max}
-              step={5}
-              value={[settings[key]]}
-              onValueChange={([v]) => update(key, v!)}
-            />
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div>
+          <div className="mb-2 flex justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground">
+            <span>Size</span>
+            <span>{settings.scale}</span>
           </div>
-        ))}
+          <Stepper
+            value={settings.scale}
+            onChange={(v) => update("scale", v)}
+            step={5}
+            min={160}
+            max={320}
+          />
+        </div>
+        <div>
+          <div className="mb-2 flex justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground">
+            <span>Glow</span>
+            <span>{settings.glow}</span>
+          </div>
+          <Stepper
+            value={settings.glow}
+            onChange={(v) => update("glow", v)}
+            step={5}
+            max={100}
+          />
+        </div>
       </div>
 
       <div className="mt-6">
