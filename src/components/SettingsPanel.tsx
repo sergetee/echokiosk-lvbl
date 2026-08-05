@@ -194,14 +194,14 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
         <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
           <div className="grid grid-cols-2 gap-3">
             <TimeStepper
-              label="Start"
+              label="FROM"
               hour={settings.dimStartHour}
               minute={settings.dimStartMinute}
               onHour={(v) => update("dimStartHour", v)}
               onMinute={(v) => update("dimStartMinute", v)}
             />
             <TimeStepper
-              label="End"
+              label="TILL"
               hour={settings.dimEndHour}
               minute={settings.dimEndMinute}
               onHour={(v) => update("dimEndHour", v)}
