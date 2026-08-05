@@ -142,7 +142,6 @@ function Kiosk() {
         <SettingsPanel
           settings={settings}
           update={update}
-          reset={reset}
           onClose={() => setOpen(false)}
         />
       ) : null}
