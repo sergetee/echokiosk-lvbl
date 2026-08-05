@@ -12,6 +12,11 @@ export type ClockSettings = {
   blinkColon: boolean;
   drift: boolean; // burn-in prevention
   scanlines: boolean;
+  dim: boolean;
+  dimStartHour: number;
+  dimStartMinute: number;
+  dimEndHour: number;
+  dimEndMinute: number;
 };
 
 export const DEFAULT_SETTINGS: ClockSettings = {
