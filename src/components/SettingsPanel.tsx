@@ -73,6 +73,40 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
         })}
       </div>
 
+      <div className="mt-6">
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">Dim</p>
+          <button
+            onClick={() => update("dim", !settings.dim)}
+            aria-pressed={settings.dim}
+            className={`rounded-md border px-3 py-1.5 text-xs tracking-[0.14em] uppercase transition-colors ${
+              settings.dim
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            }`}
+          >
+            {settings.dim ? "On" : "Off"}
+          </button>
+        </div>
+        <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
+          <div className="grid grid-cols-2 gap-3">
+            <TimeStepper
+              label="Start"
+              hour={settings.dimStartHour}
+              minute={settings.dimStartMinute}
+              onHour={(v) => update("dimStartHour", v)}
+              onMinute={(v) => update("dimStartMinute", v)}
+            />
+            <TimeStepper
+              label="End"
+              hour={settings.dimEndHour}
+              minute={settings.dimEndMinute}
+              onHour={(v) => update("dimEndHour", v)}
+              onMinute={(v) => update("dimEndMinute", v)}
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="mt-6 space-y-5">
         {(
