@@ -214,7 +214,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <div>
+        <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
             value={settings.scale}
@@ -225,7 +225,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
             horizontal
           />
         </div>
-        <div>
+        <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
           <Stepper
             value={settings.glow}
