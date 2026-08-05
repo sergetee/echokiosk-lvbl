@@ -45,7 +45,7 @@ const MONTHS = [
 const pad = (n: number) => n.toString().padStart(2, "0");
 
 function Kiosk() {
-  const { settings, update, reset, loaded } = useClockSettings();
+  const { settings, update, loaded } = useClockSettings();
   const [now, setNow] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -142,7 +142,6 @@ function Kiosk() {
         <SettingsPanel
           settings={settings}
           update={update}
-          reset={reset}
           onClose={() => setOpen(false)}
         />
       ) : null}
