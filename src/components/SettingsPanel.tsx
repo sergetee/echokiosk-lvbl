@@ -52,7 +52,7 @@ function TimeStepper({
   onMinute: (v: number) => void;
 }) {
   return (
-    <div className="rounded-md border border-border bg-secondary/20 p-3">
+    <div className="bg-secondary/20 p-3">
       <p className="mb-2 text-center text-xs tracking-[0.18em] uppercase text-muted-foreground">
         {label}
       </p>
@@ -135,7 +135,7 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
         })}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 rounded-md border border-border p-3">
         <div className="mb-2 flex items-center justify-between">
           <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">Dim</p>
           <button
