@@ -213,28 +213,24 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         <div>
-          <div className="mb-2 flex justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground">
-            <span>Size</span>
-            <span>{settings.scale}</span>
-          </div>
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
             value={settings.scale}
             onChange={(v) => update("scale", v)}
             step={5}
             min={160}
             max={320}
+            horizontal
           />
         </div>
         <div>
-          <div className="mb-2 flex justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground">
-            <span>Glow</span>
-            <span>{settings.glow}</span>
-          </div>
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
           <Stepper
             value={settings.glow}
             onChange={(v) => update("glow", v)}
             step={5}
             max={100}
+            horizontal
           />
         </div>
       </div>
