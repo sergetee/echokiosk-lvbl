@@ -199,6 +199,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
               minute={settings.dimStartMinute}
               onHour={(v) => update("dimStartHour", v)}
               onMinute={(v) => update("dimStartMinute", v)}
+              align="left"
             />
             <TimeStepper
               label="TILL"
@@ -206,6 +207,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
               minute={settings.dimEndMinute}
               onHour={(v) => update("dimEndHour", v)}
               onMinute={(v) => update("dimEndMinute", v)}
+              align="right"
             />
           </div>
         </div>
