@@ -85,15 +85,21 @@ function TimeStepper({
   minute,
   onHour,
   onMinute,
+  align,
 }: {
   label: string;
   hour: number;
   minute: number;
   onHour: (v: number) => void;
   onMinute: (v: number) => void;
+  align: "left" | "right";
 }) {
   return (
-    <div className="flex w-fit flex-col items-center p-3 text-center">
+    <div
+      className={`flex w-fit flex-col items-center p-3 text-center ${
+        align === "right" ? "justify-self-end" : "justify-self-start"
+      }`}
+    >
       <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">{label}</p>
       <div className="flex items-center gap-2">
         <Stepper value={hour} onChange={onHour} step={1} max={24} cyclic />
