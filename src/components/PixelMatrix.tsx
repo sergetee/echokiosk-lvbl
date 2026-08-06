@@ -35,11 +35,16 @@ export function PixelMatrix({ text, size, showGrid, glow, className }: Props) {
               width: size,
               height: size,
               borderRadius: Math.max(1, size * 0.22),
-              background: d.on ? "var(--dot-on)" : "var(--dot-off)",
+              // A gradient (not background-color) survives Android WebView's
+              // force-dark inversion, which would otherwise grey out light dots.
+              backgroundImage: d.on
+                ? "linear-gradient(var(--dot-on), var(--dot-on))"
+                : "linear-gradient(var(--dot-off), var(--dot-off))",
               boxShadow: d.on && glow > 0 ? `0 0 ${size * (glow / 45)}px var(--dot-glow)` : undefined,
               transition: "background 220ms linear",
             }}
           />
+
         ),
       )}
     </div>
