@@ -77,6 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      // Opts out of Android WebView / Chrome algorithmic darkening, which would
+      // otherwise invert the near-white Mono palette on some tablets.
+      { name: "color-scheme", content: "dark" },
+
       { title: "Lovable App" },
       { name: "description", content: "Lovable Generated Project" },
       { name: "author", content: "Lovable" },
