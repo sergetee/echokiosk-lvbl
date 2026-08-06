@@ -2,8 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main'] # или master, смотря как называется главная ветка
-
+    branches: ['main']
 permissions:
   contents: read
   pages: write
@@ -32,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build
+        run: npx vite build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
