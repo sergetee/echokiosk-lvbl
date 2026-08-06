@@ -156,7 +156,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
                 ? "border-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
                 : "border-border"
             }`}
-            style={{ background: t.swatch }}
+            style={{ backgroundImage: `linear-gradient(${t.swatch}, ${t.swatch})` }}
           />
         ))}
       </div>
