@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
+import type { PixelFontId } from "@/lib/pixel-font";
 
 export type ThemeName = "amber" | "phosphor" | "ice" | "magenta" | "paper";
 
 export type ClockSettings = {
   theme: ThemeName;
+  font: PixelFontId;
   showSeconds: boolean;
   showDate: boolean;
   showGrid: boolean;
   glow: number; // 0-100
-  scale: number; // dot size multiplier 40-160
+  scale: number; // dot size multiplier
   blinkColon: boolean;
   drift: boolean; // burn-in prevention
   scanlines: boolean;
@@ -21,6 +23,7 @@ export type ClockSettings = {
 
 export const DEFAULT_SETTINGS: ClockSettings = {
   theme: "amber",
+  font: "classic",
   showSeconds: true,
   showDate: true,
   showGrid: true,

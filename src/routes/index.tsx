@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Settings } from "lucide-react";
 import { PixelMatrix } from "@/components/PixelMatrix";
 import { SettingsPanel } from "@/components/SettingsPanel";
@@ -43,11 +43,16 @@ const MONTHS = [
 ];
 
 const pad = (n: number) => n.toString().padStart(2, "0");
+const FAB_HIDE_MS = 4000;
 
 function Kiosk() {
   const { settings, update, loaded } = useClockSettings();
   const [now, setNow] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
+  const [showFab, setShowFab] = useState(false);
+  const hideFabRef = useRef<number>();
+  const openRef = useRef(false);
+  openRef.current = open;
 
   useEffect(() => {
     setNow(new Date());
@@ -59,6 +64,27 @@ function Kiosk() {
     if (document.fullscreenElement) void document.exitFullscreen();
     else void document.documentElement.requestFullscreen().catch(() => {});
   }, []);
+
+  const revealFab = useCallback(() => {
+    setShowFab(true);
+    window.clearTimeout(hideFabRef.current);
+    hideFabRef.current = window.setTimeout(() => {
+      if (!openRef.current) setShowFab(false);
+    }, FAB_HIDE_MS);
+  }, []);
+
+  useEffect(() => () => window.clearTimeout(hideFabRef.current), []);
+
+  useEffect(() => {
+    if (open) window.clearTimeout(hideFabRef.current);
+    else if (showFab) revealFab();
+  }, [open, showFab, revealFab]);
+
+  const handleScreenPointerDown = (e: React.PointerEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest(".kiosk-panel, .kiosk-fab")) return;
+    revealFab();
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -97,6 +123,7 @@ function Kiosk() {
         settings.scanlines ? "kiosk-scanlines" : ""
       }`}
       style={{ opacity: 0.92 }}
+      onPointerDown={handleScreenPointerDown}
     >
       <h1 className="sr-only">Pixel Clock Kiosk</h1>
 
@@ -111,6 +138,7 @@ function Kiosk() {
             <div className="flex items-end gap-[2vw]">
               <PixelMatrix
                 text={timeText}
+                font={settings.font}
                 size={dotSize}
                 showGrid={settings.showGrid}
                 glow={settings.glow}
@@ -119,6 +147,7 @@ function Kiosk() {
             {settings.showDate ? (
               <PixelMatrix
                 text={dateText}
+                font={settings.font}
                 size={Math.max(2, Math.round(dotSize * 0.34))}
                 showGrid={settings.showGrid}
                 glow={settings.glow * 0.6}
@@ -133,18 +162,23 @@ function Kiosk() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Open kiosk settings"
-        className="kiosk-fab fixed bottom-6 left-6 z-40 rounded-full p-3 opacity-70 transition-opacity hover:opacity-100"
+        aria-hidden={!showFab || open}
+        tabIndex={showFab && !open ? 0 : -1}
+        className={`kiosk-fab fixed bottom-6 left-6 z-40 rounded-full p-3 transition-opacity duration-300 ${
+          showFab && !open
+            ? "pointer-events-auto opacity-70 hover:opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
       >
         <Settings className="size-5" />
       </button>
 
-      {open ? (
-        <SettingsPanel
-          settings={settings}
-          update={update}
-          onClose={() => setOpen(false)}
-        />
-      ) : null}
+      <SettingsPanel
+        open={open}
+        settings={settings}
+        update={update}
+        onClose={() => setOpen(false)}
+      />
     </main>
   );
 }

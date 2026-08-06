@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
+import { PIXEL_FONTS } from "@/lib/pixel-font";
 
 const pad2 = (n: number) => n.toString().padStart(2, "0");
 
@@ -111,7 +113,7 @@ function TimeStepper({
 }
 
 const THEMES: { id: ThemeName; label: string; swatch: string }[] = [
-  { id: "amber", label: "Amber CRT", swatch: "oklch(0.82 0.16 75)" },
+  { id: "amber", label: "Amber", swatch: "oklch(0.82 0.16 75)" },
   { id: "phosphor", label: "Phosphor", swatch: "oklch(0.85 0.2 145)" },
   { id: "ice", label: "Ice", swatch: "oklch(0.85 0.13 220)" },
   { id: "magenta", label: "Magenta", swatch: "oklch(0.78 0.2 340)" },
@@ -128,14 +130,54 @@ const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
 ];
 
 type Props = {
+  open: boolean;
   settings: ClockSettings;
   update: <K extends keyof ClockSettings>(k: K, v: ClockSettings[K]) => void;
   onClose: () => void;
 };
 
-export function SettingsPanel({ settings, update, onClose }: Props) {
+export function SettingsPanel({ open, settings, update, onClose }: Props) {
+  const [mounted, setMounted] = useState(open);
+  const [visible, setVisible] = useState(open);
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+      let innerFrame: number;
+      const frame = requestAnimationFrame(() => {
+        innerFrame = requestAnimationFrame(() => setVisible(true));
+      });
+      return () => {
+        cancelAnimationFrame(frame);
+        cancelAnimationFrame(innerFrame);
+      };
+    }
+    setVisible(false);
+  }, [open]);
+
+  if (!mounted) return null;
+
   return (
-    <aside className="kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6">
+    <>
+      <div
+        className={`fixed inset-0 z-40 transition-opacity duration-300 ${
+          visible ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        aria-hidden
+        onPointerDown={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+      />
+      <aside
+        className={`kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6 ${
+          visible ? "kiosk-panel-visible" : ""
+        }`}
+        onTransitionEnd={(e) => {
+          if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
+          if (!visible && !open) setMounted(false);
+        }}
+      >
       <div className="mb-2 flex items-center justify-between">
         <h2 className="text-sm font-semibold tracking-[0.22em] uppercase">SETTINGS</h2>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
@@ -158,6 +200,25 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
             }`}
             style={{ backgroundImage: `linear-gradient(${t.swatch}, ${t.swatch})` }}
           />
+        ))}
+      </div>
+
+      <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
+      <div className="mt-2 mb-4 flex flex-col gap-2">
+        {PIXEL_FONTS.map((f) => (
+          <button
+            key={f.id}
+            onClick={() => update("font", f.id)}
+            aria-pressed={settings.font === f.id}
+            className={`flex items-center justify-between rounded-md border px-3 py-2.5 text-xs transition-colors ${
+              settings.font === f.id
+                ? "border-primary bg-primary text-primary-foreground font-semibold"
+                : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            }`}
+          >
+            <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
+            <span className="text-[0.65rem] opacity-75">{f.tagline}</span>
+          </button>
         ))}
       </div>
 
@@ -240,6 +301,7 @@ export function SettingsPanel({ settings, update, onClose }: Props) {
           />
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
