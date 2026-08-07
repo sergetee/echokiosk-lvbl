@@ -8,27 +8,19 @@ export type FontMeta = {
 
 export type Dot = { x: number; y: number; on: boolean };
 
-// Резервный глиф 3x5 (вопросительный знак/заглушка)
-const FALLBACK_GLYPH = [
-  "###",
-  "###",
-  "###",
-  "###",
-  "###"
-];
-
-// Автоматический импорт всех .txt файлов из папки src/fonts/
+// 1. Автоматический импорт всех .txt файлов из директории fonts
 const fontFiles = import.meta.glob<string>("../fonts/*.txt", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
-/** Парсит метаданные [META] и символы [CHAR:] из текстового файла */
+/** Парсит метаданные [META] и символы [CHAR:] из файла */
 function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string, string[]> } {
   const glyphs: Record<string, string[]> = {};
   const meta: FontMeta = { id: "", name: "", tagline: "" };
 
+  // Читаем блок [META]
   const metaMatch = rawText.match(/\[META\]([\s\S]*?)(?=\[CHAR:|$)/);
   if (metaMatch) {
     const metaLines = metaMatch[1].split("\n");
@@ -44,6 +36,7 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
     }
   }
 
+  // Читаем блоки [CHAR:]
   const blocks = rawText.split(/^\[CHAR:(.+)\]$/gm);
 
   for (let i = 1; i < blocks.length; i += 2) {
@@ -52,19 +45,14 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
 
     const lines = blocks[i + 1]
       .split("\n")
-      .map((line) => line.replace(/\r$/, ""));
+      .map((line) => line.replace(/\r$/, ""))
+      .filter((line, index, arr) => {
+        if (index === 0 && line === "") return false;
+        if (index === arr.length - 1 && line === "") return false;
+        return true;
+      });
 
-    // Удаляем служебные пустые строки в начале и конце блока
-    while (lines.length > 0 && lines[0] === "") {
-      lines.shift();
-    }
-    while (lines.length > 0 && lines[lines.length - 1] === "") {
-      lines.pop();
-    }
-
-    if (lines.length > 0) {
-      glyphs[charKey] = lines;
-    }
+    glyphs[charKey] = lines;
   }
 
   return { meta, glyphs };
@@ -73,18 +61,16 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
 export const PIXEL_FONTS: FontMeta[] = [];
 export const FONT_MAPS: Record<PixelFontId, Record<string, string[]>> = {};
 
-// Инициализация карт шрифтов
+// 2. Инициализируем шрифты из найденных файлов
 Object.values(fontFiles).forEach((rawText) => {
-  if (typeof rawText === "string") {
-    const { meta, glyphs } = parseFontFile(rawText);
-    if (meta.id) {
-      PIXEL_FONTS.push(meta);
-      FONT_MAPS[meta.id] = glyphs;
-    }
+  const { meta, glyphs } = parseFontFile(rawText);
+  if (meta.id) {
+    PIXEL_FONTS.push(meta);
+    FONT_MAPS[meta.id] = glyphs;
   }
 });
 
-// Фолбек для 7-Segment
+// Фолбек для 7-Segment, если нет отдельного файла
 if (!FONT_MAPS["segment"] && FONT_MAPS["classic"]) {
   FONT_MAPS["segment"] = FONT_MAPS["classic"];
   PIXEL_FONTS.push({
@@ -137,6 +123,7 @@ export const SEGMENT_MAP: Record<string, SegmentName[]> = {
   Z: ["a", "b", "d", "e", "g"],
 };
 
+/** Раскладка строки в матричную сетку */
 export function layout(
   text: string,
   fontId: PixelFontId = "classic"
@@ -151,13 +138,7 @@ export function layout(
 
   for (const ch of chars) {
     const isColon = ch === ":" || ch === ";";
-    
-    // Безопасный поиск глифа
-    let glyph = isColon ? fontMap[":"] : fontMap[ch];
-    if (!glyph || glyph.length === 0) {
-      glyph = fontMap[" "] ?? FALLBACK_GLYPH;
-    }
-    
+    const glyph = isColon ? fontMap[":"]! : (fontMap[ch] ?? fontMap[" "]!);
     const glyphWidth = glyph[0]?.length ?? 3;
     const glyphHeight = glyph.length;
 
@@ -165,12 +146,8 @@ export function layout(
 
     for (let y = 0; y < glyphHeight; y++) {
       for (let x = 0; x < w; x++) {
-        const line = glyph[y] ?? "";
-        const charAtPos = line[x] ?? " ";
-        const inMask = charAtPos === "#";
-        
+        const inMask = glyph[y]![x] === "#";
         if (isColon && !inMask) continue;
-        
         dots.push({
           x: cursor + x,
           y,
@@ -180,7 +157,7 @@ export function layout(
     }
     cursor += w + 1;
   }
-  
+
   const maxX = dots.reduce((max, d) => Math.max(max, d.x), 0);
   return { dots, width: Math.max(maxX + 1, 1), height: fontHeight };
 }
