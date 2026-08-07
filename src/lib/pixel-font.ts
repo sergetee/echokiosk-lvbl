@@ -8,6 +8,15 @@ export type FontMeta = {
 
 export type Dot = { x: number; y: number; on: boolean };
 
+// Резервный глиф 3x5 (вопросительный знак/заглушка)
+const FALLBACK_GLYPH = [
+  "###",
+  "###",
+  "###",
+  "###",
+  "###"
+];
+
 // Автоматический импорт всех .txt файлов из папки src/fonts/
 const fontFiles = import.meta.glob<string>("../fonts/*.txt", {
   query: "?raw",
