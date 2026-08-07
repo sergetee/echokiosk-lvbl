@@ -58,8 +58,10 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
         if (index === arr.length - 1 && line === "") return false;
         return true;
       });
-
-    glyphs[charKey] = lines;
+    
+    if (lines.length > 0) {
+      glyphs[charKey] = lines;
+    }
   }
 
   return { meta, glyphs };
@@ -70,10 +72,12 @@ export const FONT_MAPS: Record<PixelFontId, Record<string, string[]>> = {};
 
 // Инициализация карт шрифтов
 Object.values(fontFiles).forEach((rawText) => {
-  const { meta, glyphs } = parseFontFile(rawText);
-  if (meta.id) {
-    PIXEL_FONTS.push(meta);
-    FONT_MAPS[meta.id] = glyphs;
+  if (typeof rawText === "string") {
+    const { meta, glyphs } = parseFontFile(rawText);
+    if (meta.id) {
+      PIXEL_FONTS.push(meta);
+      FONT_MAPS[meta.id] = glyphs;
+    }
   }
 });
 
@@ -144,7 +148,13 @@ export function layout(
 
   for (const ch of chars) {
     const isColon = ch === ":" || ch === ";";
-    const glyph = isColon ? fontMap[":"]! : (fontMap[ch] ?? fontMap[" "]!);
+    
+    // Безопасный поиск глифа
+    let glyph = isColon ? fontMap[":"] : fontMap[ch];
+    if (!glyph || glyph.length === 0) {
+      glyph = fontMap[" "] ?? FALLBACK_GLYPH;
+    }
+    
     const glyphWidth = glyph[0]?.length ?? 3;
     const glyphHeight = glyph.length;
 
@@ -152,8 +162,12 @@ export function layout(
 
     for (let y = 0; y < glyphHeight; y++) {
       for (let x = 0; x < w; x++) {
-        const inMask = glyph[y]![x] === "#";
+        const line = glyph[y] ?? "";
+        const charAtPos = line[x] ?? " ";
+        const inMask = charAtPos === "#";
+        
         if (isColon && !inMask) continue;
+        
         dots.push({
           x: cursor + x,
           y,
@@ -163,7 +177,7 @@ export function layout(
     }
     cursor += w + 1;
   }
-
+  
   const maxX = dots.reduce((max, d) => Math.max(max, d.x), 0);
   return { dots, width: Math.max(maxX + 1, 1), height: fontHeight };
 }
