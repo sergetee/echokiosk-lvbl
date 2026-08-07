@@ -15,7 +15,7 @@ tagline: Heavy Scoreboard
   #  
   #  
   #  
-#####
+  #  
 
 [CHAR:2]
 #####
@@ -46,7 +46,7 @@ tagline: Heavy Scoreboard
 #####
 
 [CHAR:6]
-#### 
+ ####
 #    
 #####
 #   #
@@ -55,9 +55,9 @@ tagline: Heavy Scoreboard
 [CHAR:7]
 #####
     #
-   # 
+    #
   #  
- #   
+  #  
 
 [CHAR:8]
 #####
@@ -71,7 +71,7 @@ tagline: Heavy Scoreboard
 #   #
 #####
     #
- ####
+#### 
 
 [CHAR::]
   
@@ -183,7 +183,7 @@ tagline: Heavy Scoreboard
     #
     #
 #   #
-#####
+ ####
 
 [CHAR:K]
 #   #
@@ -200,17 +200,17 @@ tagline: Heavy Scoreboard
 #####
 
 [CHAR:M]
-#   #
 #####
-#####
+# # #
+# # #
 #   #
 #   #
 
 [CHAR:N]
-#### 
 #   #
-#   #
-#   #
+##  #
+# # #
+#  ##
 #   #
 
 [CHAR:O]
@@ -230,9 +230,9 @@ tagline: Heavy Scoreboard
 [CHAR:Q]
 #####
 #   #
+#   #
+#  ##
 #####
-    ##
-    ##
 
 [CHAR:R]
 #####
@@ -266,21 +266,21 @@ tagline: Heavy Scoreboard
 #   #
 #   #
 #   #
- ##  
- ##  
+ # # 
+  #  
 
 [CHAR:W]
 #   #
 #   #
+# # #
+# # #
 #####
-#####
-#   #
 
 [CHAR:X]
 #   #
- ##  
- ##  
- ##  
+ # # 
+  #  
+ # # 
 #   #
 
 [CHAR:Y]
