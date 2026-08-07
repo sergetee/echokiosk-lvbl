@@ -52,13 +52,16 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
 
     const lines = blocks[i + 1]
       .split("\n")
-      .map((line) => line.replace(/\r$/, ""))
-      .filter((line, index, arr) => {
-        if (index === 0 && line === "") return false;
-        if (index === arr.length - 1 && line === "") return false;
-        return true;
-      });
-    
+      .map((line) => line.replace(/\r$/, ""));
+
+    // Удаляем служебные пустые строки в начале и конце блока
+    while (lines.length > 0 && lines[0] === "") {
+      lines.shift();
+    }
+    while (lines.length > 0 && lines[lines.length - 1] === "") {
+      lines.pop();
+    }
+
     if (lines.length > 0) {
       glyphs[charKey] = lines;
     }
