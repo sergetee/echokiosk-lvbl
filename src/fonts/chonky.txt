@@ -55,7 +55,7 @@ tagline: Heavy Scoreboard
 [CHAR:7]
 #####
     #
-    #
+   ##
   #  
   #  
 
