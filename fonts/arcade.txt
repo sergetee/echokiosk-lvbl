@@ -11,11 +11,11 @@ tagline: Retro Video Game
 ### 
 
 [CHAR:1]
- #  
-##  
- #  
- #  
-### 
+  #  
+ ##  
+  #  
+  #  
+ ### 
 
 [CHAR:2]
 ### 
