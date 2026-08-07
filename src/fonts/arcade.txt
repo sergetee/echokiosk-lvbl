@@ -32,8 +32,8 @@ tagline: Retro Video Game
 ### 
 
 [CHAR:4]
-  ##
  # #
+#  #
 ####
    #
    #
