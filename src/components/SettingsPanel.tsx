@@ -203,7 +203,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         <button
           onClick={() => setActiveTab("themes")}
           className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "display"
+            activeTab === "themes"
               ? "bg-slate-800 text-slate-100 shadow-sm"
               : "text-slate-400 hover:text-slate-200"
           }`}
@@ -213,7 +213,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         <button
           onClick={() => setActiveTab("font")}
           className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "time"
+            activeTab === "font"
               ? "bg-slate-800 text-slate-100 shadow-sm"
               : "text-slate-400 hover:text-slate-200"
           }`}
@@ -223,7 +223,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         <button
           onClick={() => setActiveTab("misc")}
           className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "screen"
+            activeTab === "misc"
               ? "bg-slate-800 text-slate-100 shadow-sm"
               : "text-slate-400 hover:text-slate-200"
           }`}
