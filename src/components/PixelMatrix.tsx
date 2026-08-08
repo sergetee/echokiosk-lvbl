@@ -95,9 +95,14 @@ export function PixelMatrix({
     >
       {chars.map((char, charIdx) => {
         const matrix = getCharMatrix(char, fontMap);
+        const cols = matrix[0]?.length ?? 0;
 
         return (
-          <div key={`${char}-${charIdx}`} className="pixel-char">
+          <div
+            key={`${font}-${char}-${charIdx}`}
+            className="pixel-char"
+            style={{ "--cols": cols } as React.CSSProperties}
+          >
             {matrix.map((row, y) => (
               <div key={y} className="pixel-row">
                 {row.map((isOn, x) => (
