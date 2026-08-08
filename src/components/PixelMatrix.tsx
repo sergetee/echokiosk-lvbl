@@ -31,8 +31,8 @@ export function PixelMatrix({
   const glowPx = glow > 0 ? `${size * (glow / 35)}px` : "0px";
 
   const rootStyle = {
-    "--pixel-size": `${size}px`,
-    "--glow-amount": glowPx,
+    "--dot-size": `${size}px`,
+    "--glow": glowPx,
   } as React.CSSProperties;
 
   // 1. Отрисовка векторного 7-сегментного индикатора
