@@ -133,7 +133,7 @@ function Kiosk() {
 
   // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
-  const dotSize = settings.scale;
+  //const dotSize = settings.scale;
 
   const { timeText, dateText } = now
     ? formatClockData(now, settings.blinkColon, settings.showSeconds)
@@ -159,7 +159,9 @@ function Kiosk() {
               <PixelMatrix
                 text={timeText}
                 font={settings.font}
-                size={dotSize}
+                dotSize={settings.scale}
+                dotRoundness={settings.dotRoundness / 100}
+                dotGap={settings.dotGap / 100}
                 showGrid={settings.showGrid}
                 glow={settings.glow}
               />
@@ -168,7 +170,7 @@ function Kiosk() {
               <PixelMatrix
                 text={dateText}
                 font={settings.font}
-                size={Math.max(2, Math.round(dotSize * 0.34))}
+                dotSize={Math.max(2, Math.round(settings.scale * 0.34))}
                 showGrid={settings.showGrid}
                 glow={settings.glow * 0.6}
               />
