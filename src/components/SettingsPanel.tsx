@@ -302,6 +302,25 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   horizontal
                 />
               </div>
+              <div className="grid grid-cols-2 gap-2">
+                {TOGGLES.map(({ key, label }) => {
+                  const active = settings[key] as boolean;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => update(key, !active as ClockSettings[typeof key])}
+                      aria-pressed={active}
+                      className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
@@ -309,25 +328,6 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {/* MISC ------------------------------------------------------------ */} 
         {activeTab === "misc" && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-2">
-              {TOGGLES.map(({ key, label }) => {
-                const active = settings[key] as boolean;
-                return (
-                  <button
-                    key={key}
-                    onClick={() => update(key, !active as ClockSettings[typeof key])}
-                    aria-pressed={active}
-                    className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
-                      active
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
             <div className="mt-6 rounded-md border border-border p-3">
               <div className="mb-2">
                 <button
