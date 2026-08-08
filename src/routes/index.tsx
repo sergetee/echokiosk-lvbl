@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Settings } from "lucide-react";
 import { PixelMatrix } from "@/components/PixelMatrix";
 import { SettingsPanel } from "@/components/SettingsPanel";
-import { useClockSettings } from "@/hooks/use-clock-settings";
+import { useClockSettings, type ClockSettings } from "@/hooks/use-clock-settings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,33 +27,51 @@ export const Route = createFileRoute("/")({
 });
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-const MONTHS = [
-  "JAN",
-  "FEB",
-  "MAR",
-  "APR",
-  "MAY",
-  "JUN",
-  "JUL",
-  "AUG",
-  "SEP",
-  "OCT",
-  "NOV",
-  "DEC",
-];
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",];
+
+const FAB_HIDE_MS = 4000;
 
 const pad = (n: number) => n.toString().padStart(2, "0");
-const FAB_HIDE_MS = 4000;
+
+/** Чистые функции форматирования и расчета */
+function formatClockData(now: Date, blinkColon: boolean, showSeconds: boolean) {
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const s = now.getSeconds();
+
+  // ";" — пустой разделитель той же ширины, что и ":"
+  const sep = blinkColon && s % 2 === 1 ? ";" : ":";
+  let timeText = `${pad(h)}${sep}${pad(m)}`;
+
+  if (showSeconds) {
+    timeText += `${sep}${pad(s)}`;
+  }
+
+  const dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
+
+  return { timeText, dateText };
+}
+
+function calculateIsDimmed(now: Date, settings: ClockSettings): boolean {
+  if (!settings.dim) return false;
+
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const start = settings.dimStartHour * 60 + settings.dimStartMinute;
+  const end = settings.dimEndHour * 60 + settings.dimEndMinute;
+
+  if (start === end) return false;
+  return start < end ? mins >= start && mins < end : mins >= start || mins < end;
+}
 
 function Kiosk() {
   const { settings, update, loaded } = useClockSettings();
   const [now, setNow] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
   const [showFab, setShowFab] = useState(false);
-  const hideFabRef = useRef<number>();
-  const openRef = useRef(false);
-  openRef.current = open;
 
+  const hideFabRef = useRef<number | null>(null);
+
+  // Обновление текущего времени
   useEffect(() => {
     setNow(new Date());
     const id = window.setInterval(() => setNow(new Date()), 500);
@@ -61,24 +79,51 @@ function Kiosk() {
   }, []);
 
   const toggleFullscreen = useCallback(() => {
-    if (document.fullscreenElement) void document.exitFullscreen();
-    else void document.documentElement.requestFullscreen().catch(() => {});
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+    } else {
+      void document.documentElement.requestFullscreen().catch(() => {});
+    }
+  }, []);
+
+  const clearFabTimer = useCallback(() => {
+    if (hideFabRef.current !== null) {
+      window.clearTimeout(hideFabRef.current);
+      hideFabRef.current = null;
+    }
   }, []);
 
   const revealFab = useCallback(() => {
     setShowFab(true);
-    window.clearTimeout(hideFabRef.current);
+    clearFabTimer();
     hideFabRef.current = window.setTimeout(() => {
-      if (!openRef.current) setShowFab(false);
+      setShowFab(false);
     }, FAB_HIDE_MS);
-  }, []);
+  }, [clearFabTimer]);
 
-  useEffect(() => () => window.clearTimeout(hideFabRef.current), []);
-
+  // Сброс таймера при открытой панели настроек
   useEffect(() => {
-    if (open) window.clearTimeout(hideFabRef.current);
-    else if (showFab) revealFab();
-  }, [open, showFab, revealFab]);
+    if (open) {
+      clearFabTimer();
+    } else if (showFab) {
+      revealFab();
+    }
+  }, [open, showFab, revealFab, clearFabTimer]);
+
+  useEffect(() => () => clearFabTimer(), [clearFabTimer]);
+
+  // Горячие клавиши
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
+      if (key === "s") setOpen((prev) => !prev);
+      if (key === "f") toggleFullscreen();
+      if (key === "escape") setOpen(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [toggleFullscreen]);
 
   const handleScreenPointerDown = (e: React.PointerEvent) => {
     const target = e.target as HTMLElement;
@@ -86,36 +131,15 @@ function Kiosk() {
     revealFab();
   };
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "s" || e.key === "S") setOpen((o) => !o);
-      if (e.key === "f" || e.key === "F") toggleFullscreen();
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [toggleFullscreen]);
-
+  // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
   const dotSize = Math.max(3, Math.round((settings.scale / 100) * 14));
 
-  let timeText = "";
-  let dateText = "";
-  if (now) {
-    const h = now.getHours();
-    // ";" is a blank colon with the same width as ":", so blinking cannot shift digits.
-    const sep = settings.blinkColon && now.getSeconds() % 2 === 1 ? ";" : ":";
-    timeText = `${pad(h)}${sep}${pad(now.getMinutes())}`;
-    if (settings.showSeconds) timeText += `${sep}${pad(now.getSeconds())}`;
-    dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
-  }
-  let dimmed = false;
-  if (now && settings.dim) {
-    const mins = now.getHours() * 60 + now.getMinutes();
-    const start = settings.dimStartHour * 60 + settings.dimStartMinute;
-    const end = settings.dimEndHour * 60 + settings.dimEndMinute;
-    dimmed = start === end ? false : start < end ? mins >= start && mins < end : mins >= start || mins < end;
-  }
+  const { timeText, dateText } = now
+    ? formatClockData(now, settings.blinkColon, settings.showSeconds)
+    : { timeText: "", dateText: "" };
+
+  const dimmed = now ? calculateIsDimmed(now, settings) : false;
 
   return (
     <main
@@ -125,15 +149,13 @@ function Kiosk() {
       style={{ opacity: 0.92 }}
       onPointerDown={handleScreenPointerDown}
     >
-      <h1 className="sr-only">Pixel Clock Kiosk</h1>
-
       <div
         className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${
           settings.drift ? "kiosk-drift" : ""
         }`}
         style={{ opacity: dimmed ? 0.25 : 1, transition: "opacity 1200ms linear" }}
       >
-        {loaded && now ? (
+        {loaded && now && (
           <>
             <div className="flex items-end gap-[2vw]">
               <PixelMatrix
@@ -144,7 +166,7 @@ function Kiosk() {
                 glow={settings.glow}
               />
             </div>
-            {settings.showDate ? (
+            {settings.showDate && (
               <PixelMatrix
                 text={dateText}
                 font={settings.font}
@@ -152,9 +174,9 @@ function Kiosk() {
                 showGrid={settings.showGrid}
                 glow={settings.glow * 0.6}
               />
-            ) : null}
+            )}
           </>
-        ) : null}
+        )}
       </div>
 
       <div className="kiosk-vignette" />
