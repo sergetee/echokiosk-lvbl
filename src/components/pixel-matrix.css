@@ -21,13 +21,21 @@
 .clock {
   --dot-size: var(--dot);
   --gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
-  gap: calc(var(--dot) * 1.25); /* Gap between characters */
+  --char-width: calc(
+    (var(--cols) * var(--dot)) + 
+    ((var(--cols) - 1) * var(--gap))
+  );
+  gap: calc(var(--char-width) * 1.25); /* Gap between characters */
 }
 .date  {
   --ratio: 3;
   --dot-size: round(var(--dot) / var(--ratio), 1px);
   --gap: round(var(--dot) * var(--dot-gap-ratio) / 100 / var(--ratio), 1px);
-  gap: calc(var(--dot) * 1.25 / var(--ratio)); /* Gap between characters */
+  --char-width: calc(
+    (var(--cols) * var(--dot)) + 
+    ((var(--cols) - 1) * var(--gap))
+  );
+  gap: calc(var(--char-width) * 1.25 / var(--ratio)); /* Gap between characters */
 }
 
 .pixel-char, .pixel-row {
