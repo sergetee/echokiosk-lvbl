@@ -35,8 +35,8 @@ export function PixelMatrix({
 
   const rootStyle = {
     "--dot": `${dotSize}px`,
-    "--dot-roundness-ratio": ${dotRoundness / 100},
-    "--dot-gap-ratio": ${dotGap / 100},
+    "--dot-roundness-ratio": `${dotRoundness / 100}`,
+    "--dot-gap-ratio": `${dotGap / 100}`,
     "--glow": glowPx,
   } as React.CSSProperties;
 
