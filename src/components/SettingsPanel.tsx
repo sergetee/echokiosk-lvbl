@@ -149,7 +149,7 @@ type Tab = "themes" | "font" | "misc";
 export function SettingsPanel({ open, settings, update, onClose }: Props) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(open);
-  const [activeTab, setActiveTab] = useState<Tab>("display");
+  const [activeTab, setActiveTab] = useState<Tab>("themes");
 
   useEffect(() => {
     if (open) {
