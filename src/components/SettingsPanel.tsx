@@ -210,7 +210,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             key={f.id}
             onClick={() => update("font", f.id)}
             aria-pressed={settings.font === f.id}
-            className={`flex items-center justify-between rounded-md border px-3 py-2.5 text-xs transition-colors ${
+            className={`rounded-md border px-3 py-2.5 text-xs transition-colors ${
               settings.font === f.id
                 ? "border-primary bg-primary text-primary-foreground font-semibold"
                 : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -221,7 +221,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
-      <div className="mt-2 mb-4 grid grid-cols-2 gap-3">
+      <div className="mb-4 grid grid-cols-2 gap-3">
         <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
