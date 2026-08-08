@@ -203,6 +203,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
+      {/* ---------- FONT SWITCHER ---------- */}   
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
       <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
         {PIXEL_FONTS.map((f) => (
@@ -221,6 +222,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
+      {/* ---------- SCALE & GLOW ---------- */}   
       <div className="mb-6 grid grid-cols-2 gap-3">
         <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
