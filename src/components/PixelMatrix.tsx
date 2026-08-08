@@ -1,6 +1,6 @@
 import React from "react";
 import { FONT_MAPS, SEGMENT_MAP, type PixelFontId, type SegmentName } from "@/lib/pixel-font";
-import "./сss/pixel-matrix.css";
+import "../сss/pixel-matrix.css";
 
 type Props = {
   text: string;
