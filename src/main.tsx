@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from '@tanstack/react-router'
 import { getRouter } from './router'
 import './css/styles.css'
-import './css/dot-matrix.css'
+import './css/pixel-matrix.css'
 
 const router = getRouter()
 
