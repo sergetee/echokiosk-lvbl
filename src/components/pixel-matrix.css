@@ -1,0 +1,101 @@
+/* Общие переменные и контейнер */
+.pixel-matrix {
+  --dot-size: 6px;
+  --glow: 0px;
+
+  display: inline-flex;
+  align-items: center;
+  /* Gap between characters */
+  gap: calc(var(--dot-size) * 1.25);
+}
+
+/* --- MODE 1: DOT MATRIX --- */
+.pixel-char {
+  display: grid;
+  grid-auto-flow: row;
+  gap: calc(var(--dot-size) * 0.33);
+}
+
+.pixel-row {
+  display: grid;
+  grid-auto-flow: column;
+  gap: calc(var(--dot-size) * 0.33);
+}
+
+.pixel-dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: calc(var(--dot-size) * 0.22);
+  background-color: var(--dot-off, #1f232a);
+  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+}
+
+.pixel-dot[data-on="true"] {
+  background-color: var(--dot-on, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
+}
+
+/* --- РЕЖИМ 2: 7-СЕГМЕНТНЫЙ ИНДИКАТОР --- */
+.pixel-matrix .segment-digit {
+  --seg-w: calc(var(--dot-size) * 2.8);
+  --seg-h: calc(var(--dot-size) * 5);
+  --seg-t: calc(var(--dot-size) * 0.55);
+  --inset: calc(var(--seg-t) * 0.55);
+  --half-h: calc(var(--seg-h) / 2);
+
+  position: relative;
+  width: var(--seg-w);
+  height: var(--seg-h);
+  flex-shrink: 0;
+}
+
+.pixel-matrix .segment-bar {
+  position: absolute;
+  border-radius: calc(var(--seg-t) * 0.35);
+  background-color: var(--dot-off, #1f232a);
+  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+}
+
+.pixel-matrix .segment-bar[data-on="true"] {
+  background-color: var(--dot-on, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
+}
+
+/* Позиционирование планок a-g без JS */
+.pixel-matrix .seg-a { top: 0; left: var(--inset); width: calc(var(--seg-w) - var(--inset) * 2); height: var(--seg-t); }
+.pixel-matrix .seg-b { top: var(--inset); right: 0; width: var(--seg-t); height: calc(var(--half-h) - var(--inset) * 1.1); }
+.pixel-matrix .seg-c { bottom: var(--inset); right: 0; width: var(--seg-t); height: calc(var(--half-h) - var(--inset) * 1.1); }
+.pixel-matrix .seg-d { bottom: 0; left: var(--inset); width: calc(var(--seg-w) - var(--inset) * 2); height: var(--seg-t); }
+.pixel-matrix .seg-e { bottom: var(--inset); left: 0; width: var(--seg-t); height: calc(var(--half-h) - var(--inset) * 1.1); }
+.pixel-matrix .seg-f { top: var(--inset); left: 0; width: var(--seg-t); height: calc(var(--half-h) - var(--inset) * 1.1); }
+.pixel-matrix .seg-g { top: calc(var(--half-h) - var(--seg-t) / 2); left: var(--inset); width: calc(var(--seg-w) - var(--inset) * 2); height: var(--seg-t); }
+
+/* Двоеточие для сегментного режима */
+.pixel-matrix .segment-colon {
+  position: relative;
+  width: calc(var(--dot-size) * 1.5);
+  height: calc(var(--dot-size) * 5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pixel-matrix .segment-colon-dot {
+  width: calc(var(--dot-size) * 0.55);
+  height: calc(var(--dot-size) * 0.55);
+  border-radius: 50%;
+  background-color: var(--dot-off, #1f232a);
+  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+}
+
+.pixel-matrix .segment-colon-dot[data-on="true"] {
+  background-color: var(--dot-on, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
+}
+
+/* Показ/скрытие выключенной сетки */
+.pixel-matrix[data-show-grid="false"] [data-on="false"] {
+  opacity: 0;
+}

@@ -125,8 +125,7 @@ const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
   { key: "showDate", label: "Date" },
   { key: "blinkColon", label: "Blink colon" },
   { key: "showGrid", label: "Dot grid" },
-  { key: "scanlines", label: "Scanlines" },
-  { key: "drift", label: "Anti burn-in" },
+  { key: "scanlines", label: "Scanlines" }
 ];
 
 type Props = {
@@ -203,23 +202,48 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
+      {/* ---------- FONT SWITCHER ---------- */}   
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-      <div className="mt-2 mb-4 flex flex-col gap-2">
+      <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
         {PIXEL_FONTS.map((f) => (
           <button
             key={f.id}
             onClick={() => update("font", f.id)}
             aria-pressed={settings.font === f.id}
-            className={`flex items-center justify-between rounded-md border px-3 py-2.5 text-xs transition-colors ${
+            className={`rounded-md border px-3 py-2.5 text-xs transition-colors ${
               settings.font === f.id
                 ? "border-primary bg-primary text-primary-foreground font-semibold"
                 : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             }`}
           >
             <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
-            <span className="text-[0.65rem] opacity-75">{f.tagline}</span>
           </button>
         ))}
+      </div>
+
+      {/* ---------- SCALE & GLOW ---------- */}   
+      <div className="mb-6 grid grid-cols-2 gap-3">
+        <div className="text-center">
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
+          <Stepper
+            value={settings.scale}
+            onChange={(v) => update("scale", v)}
+            step={1}
+            min={15}
+            max={30}
+            horizontal
+          />
+        </div>
+        <div className="text-center">
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
+          <Stepper
+            value={settings.glow}
+            onChange={(v) => update("glow", v)}
+            step={5}
+            max={100}
+            horizontal
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-2">
@@ -277,30 +301,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           </div>
         </div>
       </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
-          <Stepper
-            value={settings.scale}
-            onChange={(v) => update("scale", v)}
-            step={5}
-            min={160}
-            max={320}
-            horizontal
-          />
-        </div>
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
-          <Stepper
-            value={settings.glow}
-            onChange={(v) => update("glow", v)}
-            step={5}
-            max={100}
-            horizontal
-          />
-        </div>
-      </div>
+      
       </aside>
     </>
   );
