@@ -29,7 +29,7 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   showDate: true,
   showGrid: true,
   scale: 20,
-  dotRoundness: 33,
+  dotRoundness: 10,
   dotGap: 22,
   glow: 55,
   blinkColon: true,
