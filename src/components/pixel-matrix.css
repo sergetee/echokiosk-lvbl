@@ -14,34 +14,36 @@
 }
 
 /* Dot grid */
-.pixel-matrix[data-show-grid="false"] [data-on="false"] {
-  opacity: 0;
-}
+.pixel-matrix[data-show-grid="false"] [data-on="false"] { opacity: 0; }
 
-.dimmed {
-  opacity: .5;
-}
+.dimmed { opacity: .5; }
+
 
 /* ============================== MODE 1: DOT MATRIX ============================== */
 
+.clock {
+  --dot-size: var(--dot);
+  --gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
+}
+.date  {
+  --ratio: 3;
+  --dot-size: round(var(--dot) / var(--ratio), 1px);
+  --gap: round(var(--dot) * var(--dot-gap-ratio) / 100 / var(--ratio), 1px);
+}
+
 .pixel-char, .pixel-row {
   display: grid;
-  gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
+  gap: var(--gap);
 }
 
-.pixel-char {
-  grid-auto-flow: row;
-}
-
-.pixel-row {
-  grid-auto-flow: column;
-}
+.pixel-char { grid-auto-flow: row; }
+.pixel-row  { grid-auto-flow: column; }
 
 .pixel-dot {
-  width: var(--dot);
-  height: var(--dot);
-  border-radius: var(--dot-roundness);
   background-color: var(--dot-off, #1f232a);
+  border-radius: var(--dot-roundness);
+  width: var(--dot-size);
+  aspect-ratio: 1;
   transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
