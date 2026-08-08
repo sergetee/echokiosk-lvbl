@@ -133,7 +133,6 @@ function Kiosk() {
 
   // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
-  //const dotSize = settings.scale;
 
   const { timeText, dateText } = now
     ? formatClockData(now, settings.blinkColon, settings.showSeconds)
@@ -143,15 +142,18 @@ function Kiosk() {
 
   return (
     <main
-      className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${
-        settings.scanlines ? "kiosk-scanlines" : ""
-      }`}
+      className={`kiosk relative min-h-screen overflow-hidden select-none
+        ${themeClass}
+        ${settings.scanlines ? "kiosk-scanlines" : ""}
+      `}
       style={{ opacity: 0.92 }}
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh]`}
-        style={{ opacity: dimmed ? 0.25 : 1, transition: "opacity 1200ms linear" }}
+        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh]
+          ${dimmed ? "dimmed" : ""}
+        `}
+        style={{ transition: "opacity 1200ms linear" }}
       >
         {loaded && now && (
           <>
