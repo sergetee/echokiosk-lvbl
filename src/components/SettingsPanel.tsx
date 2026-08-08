@@ -135,6 +135,8 @@ type Props = {
   onClose: () => void;
 };
 
+type Tab = "themes" | "font" | "misc";
+
 export function SettingsPanel({ open, settings, update, onClose }: Props) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(open);
@@ -177,6 +179,8 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           if (!visible && !open) setMounted(false);
         }}
       >
+        
+      {/* HEADER ------------------------------------------------------------ */}
       <div className="mb-2 flex items-center justify-between">
         <h2 className="text-sm font-semibold tracking-[0.22em] uppercase">SETTINGS</h2>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
@@ -184,6 +188,41 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         </Button>
       </div>
 
+      {/* TABS ------------------------------------------------------------ */}
+      <div className="my-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
+        <button
+          onClick={() => setActiveTab("themes")}
+          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
+            activeTab === "display"
+              ? "bg-slate-800 text-slate-100 shadow-sm"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Themes
+        </button>
+        <button
+          onClick={() => setActiveTab("font")}
+          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
+            activeTab === "time"
+              ? "bg-slate-800 text-slate-100 shadow-sm"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Font
+        </button>
+        <button
+          onClick={() => setActiveTab("misc")}
+          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
+            activeTab === "screen"
+              ? "bg-slate-800 text-slate-100 shadow-sm"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Misc
+        </button>
+      </div>
+
+      {/* THEMES ------------------------------------------------------------ */}
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
       <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
         {THEMES.map((t) => (
@@ -202,7 +241,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
-      {/* ---------- FONT SWITCHER ---------- */}   
+      {/* FONT SWITCHER ------------------------------------------------------------ */}
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
       <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
         {PIXEL_FONTS.map((f) => (
@@ -221,7 +260,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
-      {/* ---------- SCALE & GLOW ---------- */}   
+      {/* SCALE & GLOW ------------------------------------------------------------ */}   
       <div className="mb-6 grid grid-cols-2 gap-3">
         <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
