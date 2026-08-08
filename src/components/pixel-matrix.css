@@ -2,6 +2,7 @@
 .pixel-matrix {
   --dot-size: 6px;
   --glow: 0px;
+  --transition: .22s cubic-bezier(0, 0, 0.2, 1);
 
   display: inline-flex;
   align-items: center;
@@ -27,7 +28,7 @@
   height: var(--dot-size);
   border-radius: calc(var(--dot-size) * 0.22);
   background-color: var(--dot-off, #1f232a);
-  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+  transition: background-color --transition, box-shadow --transition, opacity --transition;
 }
 
 .pixel-dot[data-on="true"] {
@@ -53,7 +54,7 @@
   position: absolute;
   border-radius: calc(var(--seg-t) * 0.35);
   background-color: var(--dot-off, #1f232a);
-  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+  transition: background-color --transition, box-shadow --transition, opacity --transition;
 }
 
 .pixel-matrix .segment-bar[data-on="true"] {
@@ -87,7 +88,7 @@
   height: calc(var(--dot-size) * 0.55);
   border-radius: 50%;
   background-color: var(--dot-off, #1f232a);
-  transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
+  transition: background-color --transition, box-shadow --transition, opacity --transition;
 }
 
 .pixel-matrix .segment-colon-dot[data-on="true"] {
