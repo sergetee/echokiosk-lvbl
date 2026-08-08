@@ -282,7 +282,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             <div className="mb-8 grid grid-cols-2 gap-3">
               {/* SCALE ------------------------------------------------------------ */} 
               <div className="text-center">
-                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot size</p>
                 <Stepper
                   value={settings.scale}
                   onChange={(v) => update("scale", v)}
@@ -295,7 +295,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             
               {/* DOT ROUNDNESS ------------------------------------------------------------ */}   
               <div className="text-center">
-                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot roundness</p>
                 <Stepper
                   value={settings.dotRoundness}
                   onChange={(v) => update("dotRoundness", v)}
@@ -308,7 +308,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
 
               {/* DOT GAP ------------------------------------------------------------ */}   
               <div className="text-center">
-                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot gap</p>
                 <Stepper
                   value={settings.dotGap}
                   onChange={(v) => update("dotGap", v)}
