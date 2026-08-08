@@ -239,7 +239,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {activeTab === "themes" && (
           <div className="space-y-4">
             <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
-            <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
+            <div className="mt-2 mb-4 grid grid-cols-3 gap-2">
               {THEMES.map((t) => (
                 <button
                   key={t.id}
