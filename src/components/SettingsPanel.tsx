@@ -274,6 +274,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                       : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   }`}
                 >
+                  {f.name}
                 </button>
               ))}
             </div>
