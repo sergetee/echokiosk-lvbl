@@ -142,17 +142,11 @@ function Kiosk() {
 
   return (
     <main
-      className={`kiosk relative min-h-screen overflow-hidden select-none
-        ${themeClass}
-        ${settings.scanlines ? "kiosk-scanlines" : ""}
-      `}
-      style={{ opacity: 0.92 }}
+      className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${settings.scanlines ? "kiosk-scanlines" : ""}`}
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh]
-          ${dimmed ? "dimmed" : ""}
-        `}
+        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${dimmed ? "dimmed" : ""}`}
         style={{ transition: "opacity 1200ms linear" }}
       >
         {loaded && now && (
