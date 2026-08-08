@@ -5,7 +5,8 @@
 
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--pixel-size) * 1); //char gap
+  /* Gap between characters */
+  gap: calc(var(--pixel-size) * 1);
 }
 
 /* --- РЕЖИМ 1: ТОЧЕЧНАЯ МАТРИЦА (CSS Grid) --- */
