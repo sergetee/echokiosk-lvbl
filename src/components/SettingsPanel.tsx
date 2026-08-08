@@ -222,6 +222,30 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="text-center">
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
+          <Stepper
+            value={settings.scale}
+            onChange={(v) => update("scale", v)}
+            step={1}
+            min={15}
+            max={30}
+            horizontal
+          />
+        </div>
+        <div className="text-center">
+          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
+          <Stepper
+            value={settings.glow}
+            onChange={(v) => update("glow", v)}
+            step={5}
+            max={100}
+            horizontal
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 gap-2">
         {TOGGLES.map(({ key, label }) => {
           const active = settings[key] as boolean;
@@ -277,30 +301,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           </div>
         </div>
       </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
-          <Stepper
-            value={settings.scale}
-            onChange={(v) => update("scale", v)}
-            step={1}
-            min={15}
-            max={30}
-            horizontal
-          />
-        </div>
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
-          <Stepper
-            value={settings.glow}
-            onChange={(v) => update("glow", v)}
-            step={5}
-            max={100}
-            horizontal
-          />
-        </div>
-      </div>
+      
       </aside>
     </>
   );
