@@ -299,7 +299,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                 <Stepper
                   value={settings.dotRoundness}
                   onChange={(v) => update("dotRoundness", v)}
-                  step={5}
+                  step={10}
                   min={0}
                   max={100}
                   horizontal
@@ -314,7 +314,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   onChange={(v) => update("dotGap", v)}
                   step={5}
                   min={0}
-                  max={50}
+                  max={100}
                   horizontal
                 />
               </div>
