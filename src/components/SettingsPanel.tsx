@@ -125,8 +125,7 @@ const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
   { key: "showDate", label: "Date" },
   { key: "blinkColon", label: "Blink colon" },
   { key: "showGrid", label: "Dot grid" },
-  { key: "scanlines", label: "Scanlines" },
-  { key: "drift", label: "Anti burn-in" },
+  { key: "scanlines", label: "Scanlines" }
 ];
 
 type Props = {
