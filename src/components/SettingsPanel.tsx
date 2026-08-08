@@ -302,7 +302,9 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   horizontal
                 />
               </div>
-              <div className="grid grid-cols-2 gap-2">
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
                 {TOGGLES.map(({ key, label }) => {
                   const active = settings[key] as boolean;
                   return (
@@ -321,7 +323,6 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   );
                 })}
               </div>
-            </div>
           </div>
         )}
 
