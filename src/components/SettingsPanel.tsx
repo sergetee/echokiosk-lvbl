@@ -236,146 +236,19 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       <div className="flex-1 space-y-5 overflow-y-auto pr-1">
         {activeTab === "themes" && (
           <div className="space-y-4">
-            <label className="block space-y-1.5">
-              <span className="text-xs text-slate-400">Шрифт</span>
-              <select
-                value={settings.font}
-                onChange={(e) => update({ font: e.target.value })}
-                className="w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700"
-              >
-                <option value="classic">Classic</option>
-                <option value="segment">7-Segment</option>
-                <option value="tall">Tall</option>
-                <option value="chonky">Chonky</option>
-                <option value="arcade">Arcade</option>
-              </select>
-            </label>
-
-            <label className="block space-y-1.5">
-              <span className="text-xs text-slate-400">Тема</span>
-              <select
-                value={settings.theme}
-                onChange={(e) => update({ theme: e.target.value })}
-                className="w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700"
-              >
-                <option value="amber">Amber</option>
-                <option value="green">Green</option>
-                <option value="cyan">Cyan</option>
-                <option value="red">Red</option>
-                <option value="white">Monochrome</option>
-              </select>
-            </label>
-
-            <label className="block space-y-1.5">
-              <div className="flex justify-between text-xs text-slate-400">
-                <span>Масштаб</span>
-                <span>{settings.scale}%</span>
-              </div>
-              <input
-                type="range"
-                min="50"
-                max="200"
-                value={settings.scale}
-                onChange={(e) => update({ scale: Number(e.target.value) })}
-                className="w-full accent-slate-400"
-              />
-            </label>
-
-            <label className="block space-y-1.5">
-              <div className="flex justify-between text-xs text-slate-400">
-                <span>Свечение (Glow)</span>
-                <span>{settings.glow}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={settings.glow}
-                onChange={(e) => update({ glow: Number(e.target.value) })}
-                className="w-full accent-slate-400"
-              />
-            </label>
-
-            <label className="flex items-center justify-between cursor-pointer pt-2">
-              <span className="text-sm text-slate-300">Фоновая сетка точек</span>
-              <input
-                type="checkbox"
-                checked={settings.showGrid}
-                onChange={(e) => update({ showGrid: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
+            themes
           </div>
         )}
 
         {activeTab === "font" && (
           <div className="space-y-4">
-            <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-slate-300">Показывать секунды</span>
-              <input
-                type="checkbox"
-                checked={settings.showSeconds}
-                onChange={(e) => update({ showSeconds: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
-
-            <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-slate-300">Показывать дату</span>
-              <input
-                type="checkbox"
-                checked={settings.showDate}
-                onChange={(e) => update({ showDate: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
-
-            <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-slate-300">Мигающее двоеточие</span>
-              <input
-                type="checkbox"
-                checked={settings.blinkColon}
-                onChange={(e) => update({ blinkColon: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
+            font
           </div>
         )}
 
         {activeTab === "misc" && (
           <div className="space-y-4">
-            <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-slate-300">Эффект Scanlines</span>
-              <input
-                type="checkbox"
-                checked={settings.scanlines}
-                onChange={(e) => update({ scanlines: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
-
-            <label className="flex items-center justify-between cursor-pointer">
-              <div className="space-y-0.5">
-                <div className="text-sm text-slate-300">Защита от выгорания</div>
-                <div className="text-[11px] text-slate-500">Микросдвиг элементов (Drift)</div>
-              </div>
-              <input
-                type="checkbox"
-                checked={settings.drift}
-                onChange={(e) => update({ drift: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
-
-            <label className="flex items-center justify-between cursor-pointer pt-2 border-t border-slate-800">
-              <span className="text-sm text-slate-300">Ночное затемнение</span>
-              <input
-                type="checkbox"
-                checked={settings.dim}
-                onChange={(e) => update({ dim: e.target.checked })}
-                className="size-4 rounded border-slate-800 bg-slate-950 text-slate-100 focus:ring-0"
-              />
-            </label>
+            misc
           </div>
         )}
       </div>
