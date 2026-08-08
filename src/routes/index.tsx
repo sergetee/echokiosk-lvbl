@@ -151,17 +151,16 @@ function Kiosk() {
       >
         {loaded && now && (
           <>
-            <div className="">
-              <PixelMatrix
-                text={timeText}
-                font={settings.font}
-                dotSize={settings.scale}
-                dotRoundness={settings.dotRoundness}
-                dotGap={settings.dotGap}
-                showGrid={settings.showGrid}
-                glow={settings.glow}
-              />
-            </div>
+            <PixelMatrix
+              text={timeText}
+              font={settings.font}
+              dotSize={settings.scale}
+              dotRoundness={settings.dotRoundness}
+              dotGap={settings.dotGap}
+              showGrid={settings.showGrid}
+              glow={settings.glow}
+            />
+            
             {settings.showDate && (
               <PixelMatrix
                 text={dateText}
