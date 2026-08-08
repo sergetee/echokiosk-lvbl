@@ -278,8 +278,9 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                 </button>
               ))}
             </div>
-            {/* SCALE ------------------------------------------------------------ */}   
+              
             <div className="mb-8 grid grid-cols-2 gap-3">
+              {/* SCALE ------------------------------------------------------------ */} 
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
                 <Stepper
@@ -291,6 +292,33 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   horizontal
                 />
               </div>
+            
+              {/* DOT ROUNDNESS ------------------------------------------------------------ */}   
+              <div className="text-center">
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
+                <Stepper
+                  value={settings.scale}
+                  onChange={(v) => update("dotRoundness", v)}
+                  step={5}
+                  min={0}
+                  max={100}
+                  horizontal
+                />
+              </div>
+
+              {/* DOT GAP ------------------------------------------------------------ */}   
+              <div className="text-center">
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
+                <Stepper
+                  value={settings.scale}
+                  onChange={(v) => update("dotGap", v)}
+                  step={5}
+                  min={0}
+                  max={50}
+                  horizontal
+                />
+              </div>
+              
               {/* GLOW ------------------------------------------------------------ */}  
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
