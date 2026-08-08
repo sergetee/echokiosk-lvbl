@@ -150,9 +150,7 @@ function Kiosk() {
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${
-          settings.drift ? "kiosk-drift" : ""
-        }`}
+        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh]`}
         style={{ opacity: dimmed ? 0.25 : 1, transition: "opacity 1200ms linear" }}
       >
         {loaded && now && (
