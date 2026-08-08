@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from '@tanstack/react-router'
 import { getRouter } from './router'
-import './css/styles.css'
+import './styles.css'
 import './components/pixel-matrix.css'
 
 const router = getRouter()
