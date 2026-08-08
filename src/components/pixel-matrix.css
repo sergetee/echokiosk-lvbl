@@ -40,7 +40,7 @@
 
 .pixel-dot {
   background-color: var(--dot-off, #1f232a);
-  border-radius: var(--dot-roundness);
+  border-radius: calc(var(--dot-roundness) / 2 * 1%);
   width: var(--dot-size);
   aspect-ratio: 1;
   transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
