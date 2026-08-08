@@ -233,7 +233,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       </div>
 
       {/* TAB CONTENT ------------------------------------------------------------ */}
-      <!--div className="flex-1 space-y-5 overflow-y-auto pr-1"-->
+      {/*<div className="flex-1 space-y-5 overflow-y-auto pr-1">*/}
       <div>
         {activeTab === "themes" && (
           <div className="space-y-4">
