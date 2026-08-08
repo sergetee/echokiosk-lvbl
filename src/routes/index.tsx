@@ -152,6 +152,7 @@ function Kiosk() {
         {loaded && now && (
           <>
             <PixelMatrix
+              className="clock"
               text={timeText}
               font={settings.font}
               dotSize={settings.scale}
@@ -163,6 +164,7 @@ function Kiosk() {
             
             {settings.showDate && (
               <PixelMatrix
+                className="date"
                 text={dateText}
                 font={settings.font}
                 dotSize={Math.max(2, Math.round(settings.scale * 0.34))}
