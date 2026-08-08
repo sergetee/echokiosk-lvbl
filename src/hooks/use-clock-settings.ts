@@ -9,10 +9,11 @@ export type ClockSettings = {
   showSeconds: boolean;
   showDate: boolean;
   showGrid: boolean;
+  scale: number; // dot size
+  dotRoundness: number;
+  dotGap: number;
   glow: number; // 0-100
-  scale: number; // dot size multiplier
   blinkColon: boolean;
-  drift: boolean; // burn-in prevention
   scanlines: boolean;
   dim: boolean;
   dimStartHour: number;
@@ -27,10 +28,11 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   showSeconds: false,
   showDate: true,
   showGrid: true,
-  glow: 55,
   scale: 20,
+  dotRoundness: 33,
+  dotGap: 22,
+  glow: 55,
   blinkColon: true,
-  drift: true,
   scanlines: true,
   dim: false,
   dimStartHour: 22,
