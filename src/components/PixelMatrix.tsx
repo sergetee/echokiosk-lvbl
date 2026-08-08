@@ -1,4 +1,6 @@
-import { layout, SEGMENT_MAP, type PixelFontId, type SegmentName } from "@/lib/pixel-font";
+import React from "react";
+import { FONT_MAPS, SEGMENT_MAP, type PixelFontId, type SegmentName } from "@/lib/pixel-font";
+import "./сss/pixel-matrix.css";
 
 type Props = {
   text: string;
@@ -12,35 +14,36 @@ type Props = {
 
 const ALL_SEGMENTS: SegmentName[] = ["a", "b", "c", "d", "e", "f", "g"];
 
-export function PixelMatrix({ text, font = "classic", size, showGrid, glow, className }: Props) {
+function getCharMatrix(char: string, fontMap: Record<string, string[]>): boolean[][] {
+  const upperChar = char.toUpperCase();
+  const glyph = fontMap[upperChar] ?? fontMap[" "] ?? [];
+  return glyph.map((line) => line.split("").map((c) => c === "#"));
+}
+
+export function PixelMatrix({
+  text,
+  font = "classic",
+  size,
+  showGrid,
+  glow,
+  className = "",
+}: Props) {
+  const glowPx = glow > 0 ? `${size * (glow / 35)}px` : "0px";
+
+  const rootStyle = {
+    "--pixel-size": `${size}px`,
+    "--glow-amount": glowPx,
+  } as React.CSSProperties;
+
+  // 1. Отрисовка векторного 7-сегментного индикатора
   if (font === "segment") {
-    const digitWidth = Math.max(12, Math.round(size * 2.8));
-    const digitHeight = Math.max(20, Math.round(size * 5));
-    const t = Math.max(2, Math.round(size * 0.55));
-    const halfH = digitHeight / 2;
-    const colonWidth = Math.max(6, Math.round(size * 1.5));
-    const charGap = Math.max(3, Math.round(size * 0.7));
-
     const chars = text.toUpperCase().split("");
-
-    // Calculate total width
-    let totalW = 0;
-    chars.forEach((ch, idx) => {
-      const isColon = ch === ":" || ch === ";";
-      totalW += (isColon ? colonWidth : digitWidth) + (idx < chars.length - 1 ? charGap : 0);
-    });
 
     return (
       <div
-        className={className}
-        style={{
-          position: "relative",
-          width: totalW,
-          height: digitHeight,
-          display: "flex",
-          alignItems: "center",
-          gap: charGap,
-        }}
+        className={`pixel-matrix ${className}`.trim()}
+        data-show-grid={showGrid}
+        style={rootStyle}
         aria-hidden
       >
         {chars.map((ch, idx) => {
@@ -49,37 +52,9 @@ export function PixelMatrix({ text, font = "classic", size, showGrid, glow, clas
 
           if (isColon) {
             return (
-              <div
-                key={idx}
-                style={{
-                  position: "relative",
-                  width: colonWidth,
-                  height: digitHeight,
-                  flexShrink: 0,
-                }}
-              >
-                {[0.3, 0.7].map((ratio, dotIdx) => {
-                  const on = !isBlinkOff;
-                  if (!on && !showGrid) return null;
-                  return (
-                    <span
-                      key={dotIdx}
-                      style={{
-                        position: "absolute",
-                        top: Math.round(digitHeight * ratio - t / 2),
-                        left: Math.round(colonWidth / 2 - t / 2),
-                        width: t,
-                        height: t,
-                        borderRadius: "50%",
-                        backgroundImage: on
-                          ? "linear-gradient(var(--dot-on), var(--dot-on))"
-                          : "linear-gradient(var(--dot-off), var(--dot-off))",
-                        boxShadow: on && glow > 0 ? `0 0 ${t * (glow / 35)}px var(--dot-glow)` : undefined,
-                        transition: "background 220ms linear",
-                      }}
-                    />
-                  );
-                })}
+              <div key={idx} className="segment-colon">
+                <span className="segment-colon-dot" data-on={!isBlinkOff} />
+                <span className="segment-colon-dot" data-on={!isBlinkOff} />
               </div>
             );
           }
@@ -87,99 +62,14 @@ export function PixelMatrix({ text, font = "classic", size, showGrid, glow, clas
           const activeSegs = SEGMENT_MAP[ch] ?? [];
 
           return (
-            <div
-              key={idx}
-              style={{
-                position: "relative",
-                width: digitWidth,
-                height: digitHeight,
-                flexShrink: 0,
-              }}
-            >
-              {ALL_SEGMENTS.map((seg) => {
-                const on = activeSegs.includes(seg);
-                if (!on && !showGrid) return null;
-
-                let style: React.CSSProperties = {
-                  position: "absolute",
-                  borderRadius: Math.max(1, Math.round(t * 0.35)),
-                  backgroundImage: on
-                    ? "linear-gradient(var(--dot-on), var(--dot-on))"
-                    : "linear-gradient(var(--dot-off), var(--dot-off))",
-                  boxShadow: on && glow > 0 ? `0 0 ${t * (glow / 35)}px var(--dot-glow)` : undefined,
-                  transition: "background 220ms linear",
-                };
-
-                const inset = Math.round(t * 0.55);
-
-                switch (seg) {
-                  case "a": // top horizontal
-                    style = {
-                      ...style,
-                      top: 0,
-                      left: inset,
-                      width: digitWidth - inset * 2,
-                      height: t,
-                    };
-                    break;
-                  case "f": // top left vertical
-                    style = {
-                      ...style,
-                      top: inset,
-                      left: 0,
-                      width: t,
-                      height: halfH - inset * 1.1,
-                    };
-                    break;
-                  case "b": // top right vertical
-                    style = {
-                      ...style,
-                      top: inset,
-                      right: 0,
-                      width: t,
-                      height: halfH - inset * 1.1,
-                    };
-                    break;
-                  case "g": // middle horizontal
-                    style = {
-                      ...style,
-                      top: Math.round(halfH - t / 2),
-                      left: inset,
-                      width: digitWidth - inset * 2,
-                      height: t,
-                    };
-                    break;
-                  case "e": // bottom left vertical
-                    style = {
-                      ...style,
-                      bottom: inset,
-                      left: 0,
-                      width: t,
-                      height: halfH - inset * 1.1,
-                    };
-                    break;
-                  case "c": // bottom right vertical
-                    style = {
-                      ...style,
-                      bottom: inset,
-                      right: 0,
-                      width: t,
-                      height: halfH - inset * 1.1,
-                    };
-                    break;
-                  case "d": // bottom horizontal
-                    style = {
-                      ...style,
-                      bottom: 0,
-                      left: inset,
-                      width: digitWidth - inset * 2,
-                      height: t,
-                    };
-                    break;
-                }
-
-                return <span key={seg} style={style} />;
-              })}
+            <div key={idx} className="segment-digit">
+              {ALL_SEGMENTS.map((seg) => (
+                <span
+                  key={seg}
+                  className={`segment-bar seg-${seg}`}
+                  data-on={activeSegs.includes(seg)}
+                />
+              ))}
             </div>
           );
         })}
@@ -187,41 +77,32 @@ export function PixelMatrix({ text, font = "classic", size, showGrid, glow, clas
     );
   }
 
-  // STANDARD DOT MATRIX RENDERER (Classic, Tall, Chonky, Arcade)
-  const { dots, width, height } = layout(text, font);
-  const gap = Math.max(1, Math.round(size * 0.18));
-  const pitch = size + gap;
+  // 2. Отрисовка точечной матрицы для всех текстовых шрифтов
+  const fontMap = FONT_MAPS[font] ?? FONT_MAPS.classic;
+  const chars = text.split("");
 
   return (
     <div
-      className={className}
-      style={{
-        position: "relative",
-        width: width * pitch - gap,
-        height: height * pitch - gap,
-      }}
+      className={`pixel-matrix ${className}`.trim()}
+      data-show-grid={showGrid}
+      style={rootStyle}
       aria-hidden
     >
-      {dots.map((d) =>
-        !d.on && !showGrid ? null : (
-          <span
-            key={`${d.x}-${d.y}`}
-            style={{
-              position: "absolute",
-              left: d.x * pitch,
-              top: d.y * pitch,
-              width: size,
-              height: size,
-              borderRadius: Math.max(1, size * 0.22),
-              backgroundImage: d.on
-                ? "linear-gradient(var(--dot-on), var(--dot-on))"
-                : "linear-gradient(var(--dot-off), var(--dot-off))",
-              boxShadow: d.on && glow > 0 ? `0 0 ${size * (glow / 45)}px var(--dot-glow)` : undefined,
-              transition: "background 220ms linear",
-            }}
-          />
-        ),
-      )}
+      {chars.map((char, charIdx) => {
+        const matrix = getCharMatrix(char, fontMap);
+
+        return (
+          <div key={`${char}-${charIdx}`} className="pixel-char">
+            {matrix.map((row, y) => (
+              <div key={y} className="pixel-row">
+                {row.map((isOn, x) => (
+                  <span key={x} className="pixel-dot" data-on={isOn} />
+                ))}
+              </div>
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
