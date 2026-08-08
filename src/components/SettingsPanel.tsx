@@ -297,7 +297,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
                 <Stepper
-                  value={settings.scale}
+                  value={settings.dotRoundness}
                   onChange={(v) => update("dotRoundness", v)}
                   step={5}
                   min={0}
@@ -310,7 +310,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Roundness</p>
                 <Stepper
-                  value={settings.scale}
+                  value={settings.dotGap}
                   onChange={(v) => update("dotGap", v)}
                   step={5}
                   min={0}
