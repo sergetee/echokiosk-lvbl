@@ -1,7 +1,7 @@
 .pixel-matrix {
   --dot: 6px;
   --dot-gap-ratio: .33;
-  --dot-roundness-ratio: .22;
+  --dot-roundness: 20%;
   --glow: 0px;
   --transition-ease: cubic-bezier(0, 0, 0.2, 1);
   --transition: .22s var(--transition-ease);
@@ -37,7 +37,7 @@
 .pixel-dot {
   width: var(--dot);
   height: var(--dot);
-  border-radius: calc(var(--dot) * var(--dot-roundness-ratio));
+  border-radius: var(--dot-roundness);
   background-color: var(--dot-off, #1f232a);
   transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
