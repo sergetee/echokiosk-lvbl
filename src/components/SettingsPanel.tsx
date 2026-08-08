@@ -284,9 +284,9 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           <Stepper
             value={settings.scale}
             onChange={(v) => update("scale", v)}
-            step={5}
-            min={160}
-            max={320}
+            step={1}
+            min={15}
+            max={30}
             horizontal
           />
         </div>
