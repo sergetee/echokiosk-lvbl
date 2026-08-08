@@ -26,7 +26,7 @@
 
 .pixel-char, .pixel-row {
   display: grid;
-  gap: round(calc(var(--dot) * var(--dot-gap-ratio) / 100));
+  gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
 }
 
 .pixel-char {
