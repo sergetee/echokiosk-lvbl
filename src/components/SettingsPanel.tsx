@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 import { PIXEL_FONTS } from "@/lib/pixel-font";
 
-type Tab = "display" | "time" | "screen";
+type Tab = "theme" | "font" | "misc";
 
 const pad2 = (n: number) => n.toString().padStart(2, "0");
 
