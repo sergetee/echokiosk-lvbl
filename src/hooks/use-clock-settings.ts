@@ -24,11 +24,11 @@ export type ClockSettings = {
 export const DEFAULT_SETTINGS: ClockSettings = {
   theme: "amber",
   font: "classic",
-  showSeconds: true,
+  showSeconds: false,
   showDate: true,
   showGrid: true,
   glow: 55,
-  scale: 160,
+  scale: 20,
   blinkColon: true,
   drift: true,
   scanlines: true,
