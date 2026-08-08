@@ -261,25 +261,3 @@
   font-size: 0.7rem;
 }
 
-@keyframes kiosk-drift {
-  0% {
-    transform: translate(-1.2vw, -1vh);
-  }
-  25% {
-    transform: translate(1.4vw, 0.8vh);
-  }
-  50% {
-    transform: translate(0.6vw, -1.4vh);
-  }
-  75% {
-    transform: translate(-1vw, 1.2vh);
-  }
-  100% {
-    transform: translate(-1.2vw, -1vh);
-  }
-}
-
-.kiosk-drift {
-  animation: kiosk-drift 240s ease-in-out infinite;
-}
-
