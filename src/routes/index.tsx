@@ -151,7 +151,7 @@ function Kiosk() {
       >
         {loaded && now && (
           <>
-            <div className="flex items-end gap-[2vw]">
+            <div className="">
               <PixelMatrix
                 text={timeText}
                 font={settings.font}
