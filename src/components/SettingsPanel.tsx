@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Sliders, Clock, Monitor, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 import { PIXEL_FONTS } from "@/lib/pixel-font";
@@ -199,7 +199,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       </div>
 
       {/* TABS ------------------------------------------------------------ */}
-      <div className="my-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
+      <div className="mb-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
         <button
           onClick={() => setActiveTab("themes")}
           className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
@@ -262,24 +262,23 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {activeTab === "font" && (
           <div className="space-y-4">
             <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-            <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
+            <div className="mt-2 mb-6 grid grid-cols-2 gap-2">
               {PIXEL_FONTS.map((f) => (
                 <button
                   key={f.id}
                   onClick={() => update("font", f.id)}
                   aria-pressed={settings.font === f.id}
-                  className={`rounded-md border px-3 py-2.5 text-xs transition-colors ${
+                  className={`rounded-md border px-3 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
                     settings.font === f.id
-                      ? "border-primary bg-primary text-primary-foreground font-semibold"
+                      ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   }`}
                 >
-                  <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
                 </button>
               ))}
             </div>
             {/* SCALE ------------------------------------------------------------ */}   
-            <div className="mb-6 grid grid-cols-2 gap-3">
+            <div className="mb-8 grid grid-cols-2 gap-3">
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
                 <Stepper
