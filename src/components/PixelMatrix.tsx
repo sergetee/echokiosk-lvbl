@@ -5,8 +5,9 @@ import "./pixel-matrix.css";
 type Props = {
   text: string;
   font?: PixelFontId;
-  /** dot size in px */
-  size: number;
+  dotSize: number;
+  dotRoundness: number;
+  dotGap: number;
   showGrid: boolean;
   glow: number;
   className?: string;
@@ -23,15 +24,19 @@ function getCharMatrix(char: string, fontMap: Record<string, string[]>): boolean
 export function PixelMatrix({
   text,
   font = "classic",
-  size,
+  dotSize,
+  dotRoundness,
+  dotGap,
   showGrid,
   glow,
   className = "",
 }: Props) {
-  const glowPx = glow > 0 ? `${size * (glow / 35)}px` : "0px";
+  const glowPx = glow > 0 ? `${dotSize * (glow / 35)}px` : "0";
 
   const rootStyle = {
-    "--dot-size": `${size}px`,
+    "--dot": `${dotSize}px`,
+    "--dot-roundness-ratio": `${dotRoundness / 100}px`,
+    "--dot-gap-ratio": `${dotGap / 100}px`,
     "--glow": glowPx,
   } as React.CSSProperties;
 
