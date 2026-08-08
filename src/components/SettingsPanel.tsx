@@ -221,7 +221,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         ))}
       </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-3">
+      <div className="mb-6 grid grid-cols-2 gap-3">
         <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
