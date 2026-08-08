@@ -235,142 +235,138 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       {/* TAB CONTENT ------------------------------------------------------------ */}
       {/*<div className="flex-1 space-y-5 overflow-y-auto pr-1">*/}
       <div>
+        {/* THEMES ------------------------------------------------------------ */}
         {activeTab === "themes" && (
           <div className="space-y-4">
-            {/* THEMES ------------------------------------------------------------ */}
-      <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
-      <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
-        {THEMES.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => update("theme", t.id)}
-            aria-label={t.label}
-            title={t.label}
-            className={`aspect-square rounded-md border transition-transform hover:scale-105 ${
-              settings.theme === t.id
-                ? "border-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
-                : "border-border"
-            }`}
-            style={{ backgroundImage: `linear-gradient(${t.swatch}, ${t.swatch})` }}
-          />
-        ))}
-      </div>
+            <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
+            <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => update("theme", t.id)}
+                  aria-label={t.label}
+                  title={t.label}
+                  className={`aspect-square rounded-md border transition-transform hover:scale-105 ${
+                    settings.theme === t.id
+                      ? "border-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
+                      : "border-border"
+                  }`}
+                  style={{ backgroundImage: `linear-gradient(${t.swatch}, ${t.swatch})` }}
+                />
+              ))}
+            </div>
           </div>
         )}
-
+        
+        {/* FONT ------------------------------------------------------------ */}
         {activeTab === "font" && (
           <div className="space-y-4">
-            font
+            <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
+            <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
+              {PIXEL_FONTS.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => update("font", f.id)}
+                  aria-pressed={settings.font === f.id}
+                  className={`rounded-md border px-3 py-2.5 text-xs transition-colors ${
+                    settings.font === f.id
+                      ? "border-primary bg-primary text-primary-foreground font-semibold"
+                      : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
+                </button>
+              ))}
+            </div>
+            {/* SCALE ------------------------------------------------------------ */}   
+            <div className="mb-6 grid grid-cols-2 gap-3">
+              <div className="text-center">
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
+                <Stepper
+                  value={settings.scale}
+                  onChange={(v) => update("scale", v)}
+                  step={1}
+                  min={15}
+                  max={30}
+                  horizontal
+                />
+              </div>
+              {/* GLOW ------------------------------------------------------------ */}  
+              <div className="text-center">
+                <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
+                <Stepper
+                  value={settings.glow}
+                  onChange={(v) => update("glow", v)}
+                  step={5}
+                  max={100}
+                  horizontal
+                />
+              </div>
+            </div>
           </div>
         )}
 
+        {/* MISC ------------------------------------------------------------ */} 
         {activeTab === "misc" && (
           <div className="space-y-4">
-            misc
+            <div className="grid grid-cols-2 gap-2">
+              {TOGGLES.map(({ key, label }) => {
+                const active = settings[key] as boolean;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => update(key, !active as ClockSettings[typeof key])}
+                    aria-pressed={active}
+                    className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-6 rounded-md border border-border p-3">
+              <div className="mb-2">
+                <button
+                  onClick={() => update("dim", !settings.dim)}
+                  aria-pressed={settings.dim}
+                  className={`w-full rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                    settings.dim
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                 >
+                  DIM
+                </button>
+              </div>
+              <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
+                <div className="grid grid-cols-2 gap-3">
+                  <TimeStepper
+                    label="FROM"
+                    hour={settings.dimStartHour}
+                    minute={settings.dimStartMinute}
+                    onHour={(v) => update("dimStartHour", v)}
+                    onMinute={(v) => update("dimStartMinute", v)}
+                    align="left"
+                  />
+                  <TimeStepper
+                    label="TILL"
+                    hour={settings.dimEndHour}
+                    minute={settings.dimEndMinute}
+                    onHour={(v) => update("dimEndHour", v)}
+                    onMinute={(v) => update("dimEndMinute", v)}
+                    align="right"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      {/* FONT SWITCHER ------------------------------------------------------------ */}
-      <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-      <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
-        {PIXEL_FONTS.map((f) => (
-          <button
-            key={f.id}
-            onClick={() => update("font", f.id)}
-            aria-pressed={settings.font === f.id}
-            className={`rounded-md border px-3 py-2.5 text-xs transition-colors ${
-              settings.font === f.id
-                ? "border-primary bg-primary text-primary-foreground font-semibold"
-                : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            }`}
-          >
-            <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* SCALE & GLOW ------------------------------------------------------------ */}   
-      <div className="mb-6 grid grid-cols-2 gap-3">
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
-          <Stepper
-            value={settings.scale}
-            onChange={(v) => update("scale", v)}
-            step={1}
-            min={15}
-            max={30}
-            horizontal
-          />
-        </div>
-        <div className="text-center">
-          <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Glow</p>
-          <Stepper
-            value={settings.glow}
-            onChange={(v) => update("glow", v)}
-            step={5}
-            max={100}
-            horizontal
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        {TOGGLES.map(({ key, label }) => {
-          const active = settings[key] as boolean;
-          return (
-            <button
-              key={key}
-              onClick={() => update(key, !active as ClockSettings[typeof key])}
-              aria-pressed={active}
-              className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
-                active
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-6 rounded-md border border-border p-3">
-        <div className="mb-2">
-          <button
-            onClick={() => update("dim", !settings.dim)}
-            aria-pressed={settings.dim}
-            className={`w-full rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
-              settings.dim
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            }`}
-          >
-            DIM
-          </button>
-        </div>
-        <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
-          <div className="grid grid-cols-2 gap-3">
-            <TimeStepper
-              label="FROM"
-              hour={settings.dimStartHour}
-              minute={settings.dimStartMinute}
-              onHour={(v) => update("dimStartHour", v)}
-              onMinute={(v) => update("dimStartMinute", v)}
-              align="left"
-            />
-            <TimeStepper
-              label="TILL"
-              hour={settings.dimEndHour}
-              minute={settings.dimEndMinute}
-              onHour={(v) => update("dimEndHour", v)}
-              onMinute={(v) => update("dimEndMinute", v)}
-              align="right"
-            />
-          </div>
-        </div>
-      </div>
-      
       </aside>
     </>
   );
