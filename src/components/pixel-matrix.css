@@ -29,7 +29,7 @@
   height: var(--dot-size);
   border-radius: calc(var(--dot-size) * 0.22);
   background-color: var(--dot-off, #1f232a);
-  transition: background-color --transition, box-shadow --transition, opacity --transition;
+  transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
 .pixel-dot[data-on="true"] {
@@ -55,7 +55,7 @@
   position: absolute;
   border-radius: calc(var(--seg-t) * 0.35);
   background-color: var(--dot-off, #1f232a);
-  transition: background-color --transition, box-shadow --transition, opacity --transition;
+  transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
 .pixel-matrix .segment-bar[data-on="true"] {
@@ -89,7 +89,7 @@
   height: calc(var(--dot-size) * 0.55);
   border-radius: 50%;
   background-color: var(--dot-off, #1f232a);
-  transition: background-color --transition, box-shadow --transition, opacity --transition;
+  transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
 .pixel-matrix .segment-colon-dot[data-on="true"] {
