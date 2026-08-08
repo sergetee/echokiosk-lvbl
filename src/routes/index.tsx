@@ -167,9 +167,9 @@ function Kiosk() {
                 className="date"
                 text={dateText}
                 font={settings.font}
-                dotSize={Math.max(2, Math.round(settings.scale * 0.34))}
+                dotSize={settings.scale}
                 dotRoundness={settings.dotRoundness}
-                dotGap={settings.dotGap * 0.34}
+                dotGap={settings.dotGap}
                 showGrid={settings.showGrid}
                 glow={settings.glow * 0.6}
               />
