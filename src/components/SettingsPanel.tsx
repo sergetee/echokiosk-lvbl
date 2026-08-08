@@ -204,7 +204,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       </div>
 
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-      <div className="mt-2 mb-4 flex flex-col gap-2">
+      <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
         {PIXEL_FONTS.map((f) => (
           <button
             key={f.id}
@@ -217,12 +217,11 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             }`}
           >
             <span className="font-semibold tracking-[0.12em] uppercase">{f.name}</span>
-            <span className="text-[0.65rem] opacity-75">{f.tagline}</span>
           </button>
         ))}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3">
+      <div className="mt-2 mb-4 grid grid-cols-2 gap-3">
         <div className="text-center">
           <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Size</p>
           <Stepper
