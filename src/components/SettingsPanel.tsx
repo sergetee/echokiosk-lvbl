@@ -233,27 +233,11 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       </div>
 
       {/* TAB CONTENT ------------------------------------------------------------ */}
-      <div className="flex-1 space-y-5 overflow-y-auto pr-1">
+      <!--div className="flex-1 space-y-5 overflow-y-auto pr-1"-->
+      <div>
         {activeTab === "themes" && (
           <div className="space-y-4">
-            themes
-          </div>
-        )}
-
-        {activeTab === "font" && (
-          <div className="space-y-4">
-            font
-          </div>
-        )}
-
-        {activeTab === "misc" && (
-          <div className="space-y-4">
-            misc
-          </div>
-        )}
-      </div>
-
-      {/* THEMES ------------------------------------------------------------ */}
+            {/* THEMES ------------------------------------------------------------ */}
       <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
       <div className="mt-2 mb-4 grid grid-cols-5 gap-2">
         {THEMES.map((t) => (
@@ -270,6 +254,21 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             style={{ backgroundImage: `linear-gradient(${t.swatch}, ${t.swatch})` }}
           />
         ))}
+      </div>
+          </div>
+        )}
+
+        {activeTab === "font" && (
+          <div className="space-y-4">
+            font
+          </div>
+        )}
+
+        {activeTab === "misc" && (
+          <div className="space-y-4">
+            misc
+          </div>
+        )}
       </div>
 
       {/* FONT SWITCHER ------------------------------------------------------------ */}
