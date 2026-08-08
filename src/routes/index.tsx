@@ -97,7 +97,7 @@ function Kiosk() {
   }, [toggleFullscreen]);
 
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
-  const dotSize = Math.max(3, Math.round((settings.scale / 100) * 14));
+  const dotSize = settings.scale;
 
   let timeText = "";
   let dateText = "";
