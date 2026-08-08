@@ -1,45 +1,45 @@
 /* Общие переменные и контейнер */
 .pixel-matrix {
-  --pixel-size: 6px;
-  --glow-amount: 0px;
+  --dot-size: 6px;
+  --glow: 0px;
 
   display: inline-flex;
   align-items: center;
   /* Gap between characters */
-  gap: calc(var(--pixel-size) * 1);
+  gap: calc(var(--dot-size) * 1.25);
 }
 
-/* --- РЕЖИМ 1: ТОЧЕЧНАЯ МАТРИЦА (CSS Grid) --- */
-.pixel-matrix .pixel-char {
+/* --- MODE 1: DOT MATRIX --- */
+.pixel-char {
   display: grid;
   grid-auto-flow: row;
-  gap: calc(var(--pixel-size) * 0.33);
+  gap: calc(var(--dot-size) * 0.33);
 }
 
-.pixel-matrix .pixel-row {
+.pixel-row {
   display: grid;
   grid-auto-flow: column;
-  gap: calc(var(--pixel-size) * 0.33);
+  gap: calc(var(--dot-size) * 0.33);
 }
 
-.pixel-matrix .pixel-dot {
-  width: var(--pixel-size);
-  height: var(--pixel-size);
-  border-radius: calc(var(--pixel-size) * 0.22);
+.pixel-dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: calc(var(--dot-size) * 0.22);
   background-color: var(--dot-off, #1f232a);
   transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
 }
 
-.pixel-matrix .pixel-dot[data-on="true"] {
+.pixel-dot[data-on="true"] {
   background-color: var(--dot-on, #00ff66);
-  box-shadow: 0 0 var(--glow-amount) var(--dot-glow, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
 }
 
 /* --- РЕЖИМ 2: 7-СЕГМЕНТНЫЙ ИНДИКАТОР --- */
 .pixel-matrix .segment-digit {
-  --seg-w: calc(var(--pixel-size) * 2.8);
-  --seg-h: calc(var(--pixel-size) * 5);
-  --seg-t: calc(var(--pixel-size) * 0.55);
+  --seg-w: calc(var(--dot-size) * 2.8);
+  --seg-h: calc(var(--dot-size) * 5);
+  --seg-t: calc(var(--dot-size) * 0.55);
   --inset: calc(var(--seg-t) * 0.55);
   --half-h: calc(var(--seg-h) / 2);
 
@@ -58,7 +58,7 @@
 
 .pixel-matrix .segment-bar[data-on="true"] {
   background-color: var(--dot-on, #00ff66);
-  box-shadow: 0 0 var(--glow-amount) var(--dot-glow, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
 }
 
 /* Позиционирование планок a-g без JS */
@@ -73,8 +73,8 @@
 /* Двоеточие для сегментного режима */
 .pixel-matrix .segment-colon {
   position: relative;
-  width: calc(var(--pixel-size) * 1.5);
-  height: calc(var(--pixel-size) * 5);
+  width: calc(var(--dot-size) * 1.5);
+  height: calc(var(--dot-size) * 5);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -83,8 +83,8 @@
 }
 
 .pixel-matrix .segment-colon-dot {
-  width: calc(var(--pixel-size) * 0.55);
-  height: calc(var(--pixel-size) * 0.55);
+  width: calc(var(--dot-size) * 0.55);
+  height: calc(var(--dot-size) * 0.55);
   border-radius: 50%;
   background-color: var(--dot-off, #1f232a);
   transition: background-color 220ms linear, box-shadow 220ms linear, opacity 220ms linear;
@@ -92,7 +92,7 @@
 
 .pixel-matrix .segment-colon-dot[data-on="true"] {
   background-color: var(--dot-on, #00ff66);
-  box-shadow: 0 0 var(--glow-amount) var(--dot-glow, #00ff66);
+  box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
 }
 
 /* Показ/скрытие выключенной сетки */
