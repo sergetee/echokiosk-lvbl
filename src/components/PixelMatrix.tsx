@@ -85,23 +85,26 @@ export function PixelMatrix({
   // 2. Отрисовка точечной матрицы для всех текстовых шрифтов
   const fontMap = FONT_MAPS[font] ?? FONT_MAPS.classic;
   const chars = text.split("");
+  const baseCols = fontMap["0"]?.[0]?.length ?? 5;
+  const combinedStyle = {
+    rootStyle,
+    "--cols": baseCols,
+  } as React.CSSProperties;
 
   return (
     <div
       className={`pixel-matrix ${className}`.trim()}
       data-show-grid={showGrid}
-      style={rootStyle}
+      style={combinedStyle}
       aria-hidden
     >
       {chars.map((char, charIdx) => {
         const matrix = getCharMatrix(char, fontMap);
-        const cols = matrix[0]?.length ?? 0;
 
         return (
           <div
             key={`${font}-${char}-${charIdx}`}
-            className="pixel-char"
-            style={{ "--cols": cols } as React.CSSProperties}
+            className="pixel-char" } as React.CSSProperties}
           >
             {matrix.map((row, y) => (
               <div key={y} className="pixel-row">
