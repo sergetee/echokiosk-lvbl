@@ -45,7 +45,7 @@
 .pixel-char { grid-auto-flow: row; }
 .pixel-row  { grid-auto-flow: column; }
 
-.pixel-dot {
+.pixel-dot[data-on="false"] {
   background-color: var(--dot-off, #1f232a);
   border-radius: calc(var(--dot-roundness) / 2 * 1%);
   width: var(--dot-size);
