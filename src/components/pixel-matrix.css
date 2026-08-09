@@ -40,7 +40,7 @@
 
 .pixel-char, .pixel-row {
   display: grid;
-  gap: var(--gap);
+  gap: var(--dot-gap);
 }
 
 .pixel-char { grid-auto-flow: row; }
