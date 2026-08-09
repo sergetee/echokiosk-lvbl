@@ -95,30 +95,31 @@ export function PixelMatrix({
       style={combinedStyle}
       aria-hidden
     >
+
     {chars.map((char, charIdx) => {
       const matrix = getCharMatrix(char, fontMap);
-      //const isColon = char === ":";
-      //const isSpace = char === " ";
-      const isTransparentOff = char === ":" || char === " ";
+      const isColon = char === ":";
+      const isSpace = char === " ";
 
       return (
         <div key={`${font}-${char}-${charIdx}`} className="pixel-char">
           {matrix.map((row, y) => (
             <div key={y} className="pixel-row">
               {row.map((isOn, x) => {
-                //const active = isColon && !isColonVisible ? false : isOn;
+                // Если двоеточие находится в фазе паузы (isColonVisible === false) — гасим точки
+                const active = isColon && !isColonVisible ? false : isOn;
 
-                // Colons and spaces don't show empty dots
-                //const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
-                const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
-                
-              return <span key={x} className="pixel-dot" data-on={dataOn} />;
+                // Для двоеточий и пробелов выключенные точки становятся прозрачными (undefined)
+                const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
+
+                return <span key={x} className="pixel-dot" data-on={dataOn} />;
               })}
             </div>
           ))}
         </div>
       );
     })}
+      
     </div>
   );
   
