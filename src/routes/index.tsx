@@ -31,7 +31,7 @@ const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "
 const FAB_HIDE_MS = 4000;
 const pad = (n: number) => n.toString().padStart(2, "0");
 
-function formatClockData(now: Date, blinkColon: boolean, showSeconds: boolean) {
+function formatClockData(now: Date = new Date(), blinkColon: boolean, showSeconds: boolean) {
   const h = now.getHours();
   const m = now.getMinutes();
   const s = now.getSeconds();
