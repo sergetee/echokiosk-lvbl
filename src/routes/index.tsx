@@ -158,7 +158,7 @@ function Kiosk() {
               dotSize={settings.scale}
               dotRoundness={settings.dotRoundness}
               dotGap={settings.dotGap}
-              showGrid={settings.showGrid}
+              dotGrid={settings.dotGrid}
               phosphorDecay={settings.phosphorDecay}
               glow={settings.glow}
               isColonVisible={isColonVisible}
@@ -172,7 +172,7 @@ function Kiosk() {
                 dotSize={settings.scale}
                 dotRoundness={settings.dotRoundness}
                 dotGap={settings.dotGap}
-                showGrid={settings.showGrid}
+                dotGrid={settings.dotGrid}
                 phosphorDecay={settings.phosphorDecay}
                 glow={settings.glow * 0.6}
               />
