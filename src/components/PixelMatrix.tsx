@@ -30,6 +30,7 @@ export function PixelMatrix({
   dotGap,
   showGrid,
   glow,
+  isColonVisible = true,
   className = "",
 }: Props) {
   const glowPx = glow > 0 ? `${dotSize * (glow / 35)}px` : "0";
