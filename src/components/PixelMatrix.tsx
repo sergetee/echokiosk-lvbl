@@ -52,10 +52,7 @@ export function PixelMatrix({
         aria-hidden
       >
         {chars.map((ch, idx) => {
-          const isColon = ch === ":" || ch === ";";
-          const isBlinkOff = ch === ";";
-
-          if (isColon) {
+          if (ch === ":") {
             return (
               <div key={idx} className="segment-colon">
                 <span className="segment-colon-dot" data-on={!isBlinkOff} />
@@ -98,21 +95,25 @@ export function PixelMatrix({
       style={combinedStyle}
       aria-hidden
     >
-      {chars.map((char, charIdx) => {
-        const matrix = getCharMatrix(char, fontMap);
+    {chars.map((char, charIdx) => {
+      const matrix = getCharMatrix(char, fontMap);
+      const isTransparentOff = char === ":" || char === " "; /* Don't show switched off dots for these chars */
 
-        return (
-          <div key={`${font}-${char}-${charIdx}`} className="pixel-char">
-            {matrix.map((row, y) => (
-              <div key={y} className="pixel-row">
-                {row.map((isOn, x) => (
-                  <span key={x} className="pixel-dot" data-on={isOn} />
-                ))}
-              </div>
-            ))}
-          </div>
-        );
-      })}
+      return (
+        <div key={`${font}-${char}-${charIdx}`} className="pixel-char">
+          {matrix.map((row, y) => (
+            <div key={y} className="pixel-row">
+              {row.map((isOn, x) => {
+                const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
+
+                return <span key={x} className="pixel-dot" data-on={dataOn} />;
+              })}
+            </div>
+          ))}
+        </div>
+      );
+    })}
     </div>
   );
+  
 }
