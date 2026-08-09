@@ -57,8 +57,8 @@ export function PixelMatrix({
           if (ch === ":") {
             return (
               <div key={idx} className="segment-colon">
-                <span className="segment-colon-dot" data-on={!isBlinkOff} />
-                <span className="segment-colon-dot" data-on={!isBlinkOff} />
+                <span className="segment-colon-dot" data-on={isColonVisible} />
+                <span className="segment-colon-dot" data-on={isColonVisible} />
               </div>
             );
           }
