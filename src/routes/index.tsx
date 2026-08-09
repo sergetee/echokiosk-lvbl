@@ -28,28 +28,21 @@ export const Route = createFileRoute("/")({
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",];
-
 const FAB_HIDE_MS = 4000;
-
 const pad = (n: number) => n.toString().padStart(2, "0");
 
-/** Чистые функции форматирования и расчета */
 function formatClockData(now: Date, blinkColon: boolean, showSeconds: boolean) {
   const h = now.getHours();
   const m = now.getMinutes();
   const s = now.getSeconds();
 
-  // ";" — пустой разделитель той же ширины, что и ":"
-  const sep = blinkColon && s % 2 === 1 ? ";" : ":";
-  let timeText = `${pad(h)}${sep}${pad(m)}`;
-
-  if (showSeconds) {
-    timeText += `${sep}${pad(s)}`;
-  }
-
+  // Colon is always visible if blinking is off (!blinkColon) OR on even seconds
+  const isColonVisible = !blinkColon || s % 2 === 0;
+  
+  let timeText = `${pad(h)}:${pad(m)}`;
+  if (showSeconds) { timeText += `:${pad(s)}`; }
   const dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
-
-  return { timeText, dateText };
+  return { timeText, dateText, isColonVisible };
 }
 
 function calculateIsDimmed(now: Date, settings: ClockSettings): boolean {
