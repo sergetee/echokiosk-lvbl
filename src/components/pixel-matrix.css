@@ -6,6 +6,11 @@
   --transition-ease: cubic-bezier(0, 0, 0.2, 1);
   --transition: .22s var(--transition-ease);
 
+  --char-width: calc(
+    (var(--cols) * var(--dot)) + 
+    ((var(--cols) - 1) * var(--dot-gap))
+  );
+
   display: inline-flex;
   align-items: center;
 }
@@ -21,20 +26,12 @@
 .clock {
   --dot-size: var(--dot);
   --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
-  --char-width: calc(
-    (var(--cols) * var(--dot)) + 
-    ((var(--cols) - 1) * var(--dot-gap))
-  );
   gap: round(var(--char-width) * .35, 1px); /* Gap between characters */
 }
 .date  {
-  --ratio: 3;
+  --ratio: 2.5;
   --dot-size: round(var(--dot) / var(--ratio), 1px);
   --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100 / var(--ratio), 1px);
-  --char-width: calc(
-    (var(--cols) * var(--dot)) + 
-    ((var(--cols) - 1) * var(--dot-gap))
-  );
   gap: round(var(--char-width) * .35 / var(--ratio), 1px); /* Gap between characters */
 }
 
