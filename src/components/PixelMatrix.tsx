@@ -51,12 +51,6 @@ function getCharMatrix(char: string, fontMap: Record<string, string[]>): boolean
 export function PixelMatrix({
   text,
   font = "classic",
-  //dotSize,
-  //dotRoundness,
-  //dotGap,
-  //showGrid,
-  //phosphorDecay,
-  //glow,
   isColonVisible = true,
   settings,
   className = "",
