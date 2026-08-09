@@ -10,6 +10,7 @@ type Props = {
   dotGap: number;
   showGrid: boolean;
   glow: number;
+  isColonVisible?: boolean;
   className?: string;
 };
 
