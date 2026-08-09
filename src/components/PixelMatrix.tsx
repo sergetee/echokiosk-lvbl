@@ -97,8 +97,9 @@ export function PixelMatrix({
     >
     {chars.map((char, charIdx) => {
       const matrix = getCharMatrix(char, fontMap);
-      const isColon = char === ":";
-      const isSpace = char === " ";
+      //const isColon = char === ":";
+      //const isSpace = char === " ";
+      const isTransparentOff = char === ":" || char === " ";
 
       return (
         <div key={`${font}-${char}-${charIdx}`} className="pixel-char">
@@ -108,8 +109,8 @@ export function PixelMatrix({
                 //const active = isColon && !isColonVisible ? false : isOn;
 
                 // Colons and spaces don't show empty dots
-                const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
-                //const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
+                //const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
+                const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
                 
               return <span key={x} className="pixel-dot" data-on={dataOn} />;
               })}
