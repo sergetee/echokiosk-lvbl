@@ -12,9 +12,10 @@ export type ClockSettings = {
   scale: number; // dot size
   dotRoundness: number;
   dotGap: number;
-  glow: number; // 0-100
+  glow: number;
   blinkColon: boolean;
   scanlines: boolean;
+  phosphorDecay: boolean;
   dim: boolean;
   dimStartHour: number;
   dimStartMinute: number;
@@ -34,6 +35,7 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   glow: 55,
   blinkColon: true,
   scanlines: true,
+  phosphorDecay: false,
   dim: false,
   dimStartHour: 22,
   dimStartMinute: 0,
