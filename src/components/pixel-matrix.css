@@ -3,7 +3,6 @@
   --dot-gap-ratio: 10;
   --dot-roundness: 20%;
   --glow: 0px;
-  --char-gap-ratio: .4;
   --transition-ease: cubic-bezier(0, 0, 0.2, 1);
   --transition: .22s var(--transition-ease);
 
@@ -25,12 +24,14 @@
 /* ============================== MODE 1: DOT MATRIX ============================== */
 
 .clock {
+  --char-gap-ratio: .4;
   --dot-size: var(--dot);
   --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
   gap: round(var(--char-width) * var(--char-gap-ratio), 1px); /* Gap between characters */
 }
 .date  {
   --date-size-ratio: .35;
+  --char-gap-ratio: .5;
   --dot-size: round(var(--dot) * var(--date-size-ratio), 1px);
   --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100 * var(--date-size-ratio), 1px);
   gap: round(var(--char-width) * var(--char-gap-ratio) * var(--date-size-ratio), 1px); /* Gap between characters */
