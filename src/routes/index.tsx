@@ -155,13 +155,8 @@ function Kiosk() {
               className="clock"
               text={timeText}
               font={settings.font}
-              dotSize={settings.scale}
-              dotRoundness={settings.dotRoundness}
-              dotGap={settings.dotGap}
-              showGrid={settings.showGrid}
-              phosphorDecay={settings.phosphorDecay}
-              glow={settings.glow}
               isColonVisible={isColonVisible}
+              settings={settings}
             />
             
             {settings.showDate && (
@@ -169,12 +164,7 @@ function Kiosk() {
                 className="date"
                 text={dateText}
                 font={settings.font}
-                dotSize={settings.scale}
-                dotRoundness={settings.dotRoundness}
-                dotGap={settings.dotGap}
-                showGrid={settings.showGrid}
-                phosphorDecay={settings.phosphorDecay}
-                glow={settings.glow * 0.6}
+                settings={settings}
               />
             )}
           </>
