@@ -45,11 +45,14 @@
 .pixel-char { grid-auto-flow: row; }
 .pixel-row  { grid-auto-flow: column; }
 
-.pixel-dot[data-on="false"] {
-  background-color: var(--dot-off, #1f232a);
+.pixel-dot {
   border-radius: calc(var(--dot-roundness) / 2 * 1%);
   width: var(--dot-size);
   aspect-ratio: 1;
+}
+
+.pixel-dot[data-on="false"] {
+  background-color: var(--dot-off, #1f232a);
   transition: background-color var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
