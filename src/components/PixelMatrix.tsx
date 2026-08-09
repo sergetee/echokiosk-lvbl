@@ -108,12 +108,18 @@ export function PixelMatrix({
           {matrix.map((row, y) => (
             <div key={y} className="pixel-row">
               {row.map((isOn, x) => {
-                // Если двоеточие находится в фазе паузы (isColonVisible === false) — гасим точки
-                const active = isColon && !isColonVisible ? false : isOn;
+                let dataOn: string | undefined;
 
-                // Для двоеточий и пробелов выключенные точки становятся прозрачными (undefined)
-                const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
-
+                if (isSpace) {
+                  dataOn = undesined;
+                } else if (isColon) {
+                  // - Empty matrix cells (!isOn) are always transparent (undefined)
+                  // - Colon dots (isOn) switch between "true" и "false"
+                  dataOn = !isOn ? undefined : isColonVisible ? "true" : "false";
+                } else {
+                  dataOn = isOn ? "true" : "false";
+                }
+              
                 return <span key={x} className="pixel-dot" data-on={dataOn} />;
               })}
             </div>
