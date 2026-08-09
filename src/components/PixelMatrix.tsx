@@ -2,7 +2,32 @@ import React from "react";
 import { FONT_MAPS, SEGMENT_MAP, type PixelFontId, type SegmentName } from "@/lib/pixel-font";
 import "./pixel-matrix.css";
 
-type Props = {
+export type MatrixSettings = {
+  dotSize: number;
+  dotRoundness: number;
+  dotGap: number;
+  showGrid: boolean;
+  phosphorDecay: boolean;
+  glow: number;
+};
+
+export const DEFAULT_MATRIX_SETTINGS: MatrixSettings = {
+  dotSize: 20,
+  dotRoundness: 0,
+  dotGap: 10,
+  showGrid: true,
+  glow: 0,
+};
+
+type PixelMatrixProps = {
+  text: string;
+  font?: PixelFontId;
+  isColonVisible?: boolean;
+  settings?: Partial<MatrixSettings>;
+  className?: string;
+};
+
+/*type Props = {
   text: string;
   font?: PixelFontId;
   dotSize: number;
@@ -13,7 +38,7 @@ type Props = {
   glow: number;
   isColonVisible?: boolean;
   className?: string;
-};
+};*/
 
 const ALL_SEGMENTS: SegmentName[] = ["a", "b", "c", "d", "e", "f", "g"];
 
@@ -26,15 +51,17 @@ function getCharMatrix(char: string, fontMap: Record<string, string[]>): boolean
 export function PixelMatrix({
   text,
   font = "classic",
-  dotSize,
-  dotRoundness,
-  dotGap,
-  showGrid,
-  phosphorDecay,
-  glow,
+  //dotSize,
+  //dotRoundness,
+  //dotGap,
+  //showGrid,
+  //phosphorDecay,
+  //glow,
   isColonVisible = true,
   className = "",
-}: Props) {
+}: PixelMatrixProps) {
+  const config = { ...DEFAULT_MATRIX_SETTINGS, ...settings };
+  const { dotSize, dotRoundness, dotGap, glow, decayTime } = config;
   const glowPx = glow > 0 ? `${dotSize * (glow / 35)}px` : "0";
 
   const rootStyle = {
