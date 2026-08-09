@@ -105,12 +105,13 @@ export function PixelMatrix({
           {matrix.map((row, y) => (
             <div key={y} className="pixel-row">
               {row.map((isOn, x) => {
-                const active = isColon && !isColonVisible ? false : isOn;
+                //const active = isColon && !isColonVisible ? false : isOn;
 
                 // Colons and spaces don't show empty dots
                 const dataOn = active ? "true" : (isColon || isSpace) ? undefined : "false";
-
-                return <span key={x} className="pixel-dot" data-on={dataOn} />;
+                //const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
+                
+              return <span key={x} className="pixel-dot" data-on={dataOn} />;
               })}
             </div>
           ))}
