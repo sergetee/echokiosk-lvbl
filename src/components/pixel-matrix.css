@@ -63,10 +63,12 @@
 
 /* Плавный спад только если включён переключатель */
 .pixel-matrix[data-phosphor-decay="true"] .pixel-dot:not([data-on="true"]) {
+  --transition-ease: cubic-bezier(0, 0, 0.2, 1);
+  --transition: .3s var(--transition-ease);
   transition: 
-    background-color 160ms cubic-bezier(0, 0, 0.2, 1),
-    box-shadow 160ms cubic-bezier(0, 0, 0.2, 1),
-    opacity 160ms cubic-bezier(0, 0, 0.2, 1);
+    background-color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition);
 }
 
 .pixel-matrix[data-phosphor-decay="true"] .pixel-dot[data-on="true"] {
