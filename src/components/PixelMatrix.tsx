@@ -87,7 +87,7 @@ export function PixelMatrix({
   const chars = text.split("");
   const baseCols = fontMap["0"]?.[0]?.length ?? 5;
   const combinedStyle = {
-    rootStyle,
+    ...rootStyle,
     "--cols": baseCols,
   } as React.CSSProperties;
 
