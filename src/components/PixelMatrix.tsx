@@ -104,7 +104,7 @@ export function PixelMatrix({
           {matrix.map((row, y) => (
             <div key={y} className="pixel-row">
               {row.map((isOn, x) => {
-                const dataOn = isOn ? "true" : isTransparentOff ? undefined : "false";
+                const dataOn = isOn ? "true" : isTransparentOff ? undefined : "";
 
                 return <span key={x} className="pixel-dot" data-on={dataOn} />;
               })}
