@@ -111,7 +111,7 @@ export function PixelMatrix({
                 let dataOn: string | undefined;
 
                 if (isSpace) {
-                  dataOn = undesined;
+                  dataOn = undefined;
                 } else if (isColon) {
                   // - Empty matrix cells (!isOn) are always transparent (undefined)
                   // - Colon dots (isOn) switch between "true" и "false"
