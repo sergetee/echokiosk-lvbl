@@ -9,6 +9,7 @@ type Props = {
   dotRoundness: number;
   dotGap: number;
   showGrid: boolean;
+  phosphorDecay: boolean;
   glow: number;
   isColonVisible?: boolean;
   className?: string;
@@ -29,6 +30,7 @@ export function PixelMatrix({
   dotRoundness,
   dotGap,
   showGrid,
+  phosphorDecay,
   glow,
   isColonVisible = true,
   className = "",
@@ -50,6 +52,7 @@ export function PixelMatrix({
       <div
         className={`pixel-matrix ${className}`.trim()}
         data-show-grid={showGrid}
+        data-phosphor-decay={phosphorDecay}
         style={rootStyle}
         aria-hidden
       >
