@@ -58,7 +58,8 @@ function calculateIsDimmed(now: Date, settings: ClockSettings): boolean {
 
 function Kiosk() {
   const { settings, update, loaded } = useClockSettings();
-  const [now, setNow] = useState<Date | null>(null);
+  //const [now, setNow] = useState<Date | null>(null);
+  const [now, setNow] = useState<Date>(() => new Date());
   const [open, setOpen] = useState(false);
   const [showFab, setShowFab] = useState(false);
 
