@@ -16,6 +16,7 @@ export const DEFAULT_MATRIX_SETTINGS: MatrixSettings = {
   dotRoundness: 0,
   dotGap: 10,
   showGrid: true,
+  phosphorDecay: true,
   glow: 0,
 };
 
@@ -26,19 +27,6 @@ type PixelMatrixProps = {
   settings?: Partial<MatrixSettings>;
   className?: string;
 };
-
-/*type Props = {
-  text: string;
-  font?: PixelFontId;
-  dotSize: number;
-  dotRoundness: number;
-  dotGap: number;
-  showGrid: boolean;
-  phosphorDecay: boolean;
-  glow: number;
-  isColonVisible?: boolean;
-  className?: string;
-};*/
 
 const ALL_SEGMENTS: SegmentName[] = ["a", "b", "c", "d", "e", "f", "g"];
 
@@ -56,7 +44,8 @@ export function PixelMatrix({
   className = "",
 }: PixelMatrixProps) {
   const config = { ...DEFAULT_MATRIX_SETTINGS, ...settings };
-  const { dotSize, dotRoundness, dotGap, glow, decayTime } = config;
+  const { dotSize, dotRoundness, dotGap, showGrid, phosphorDecay, glow } = config;
+  
   const glowPx = glow > 0 ? `${dotSize * (glow / 35)}px` : "0";
 
   const rootStyle = {
@@ -119,6 +108,7 @@ export function PixelMatrix({
     <div
       className={`pixel-matrix ${className}`.trim()}
       data-show-grid={showGrid}
+      data-phosphor-decay={phosphorDecay}
       style={combinedStyle}
       aria-hidden
     >
