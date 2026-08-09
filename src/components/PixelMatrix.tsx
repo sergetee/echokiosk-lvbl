@@ -119,7 +119,7 @@ export function PixelMatrix({
       const isSpace = char === " ";
 
       return (
-        <div key={`${font}-${char}-${charIdx}`} className="pixel-char">
+        <div key={`${font}-${charIdx}`} className="pixel-char">
           {matrix.map((row, y) => (
             <div key={y} className="pixel-row">
               {row.map((isOn, x) => {
