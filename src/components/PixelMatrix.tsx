@@ -58,6 +58,7 @@ export function PixelMatrix({
   //phosphorDecay,
   //glow,
   isColonVisible = true,
+  settings,
   className = "",
 }: PixelMatrixProps) {
   const config = { ...DEFAULT_MATRIX_SETTINGS, ...settings };
