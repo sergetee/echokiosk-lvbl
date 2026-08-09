@@ -127,10 +127,16 @@ function Kiosk() {
   // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
 
-  const { timeText, dateText } = now
-    ? formatClockData(now, settings.blinkColon, settings.showSeconds)
-    : { timeText: "", dateText: "" };
+  //const { timeText, dateText } = now
+  //  ? formatClockData(now, settings.blinkColon, settings.showSeconds)
+  //  : { timeText: "", dateText: "" };
 
+  const { timeText, dateText, isColonVisible } = formatClockData(
+    now, 
+    settings.blinkColon, 
+    settings.showSeconds
+  );
+  
   const dimmed = now ? calculateIsDimmed(now, settings) : false;
 
   return (
@@ -153,6 +159,7 @@ function Kiosk() {
               dotGap={settings.dotGap}
               showGrid={settings.showGrid}
               glow={settings.glow}
+              isColonVisible={isColonVisible}
             />
             
             {settings.showDate && (
