@@ -285,8 +285,8 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot size</p>
                 <Stepper
-                  value={settings.scale}
-                  onChange={(v) => update("scale", v)}
+                  value={settings.dotSize}
+                  onChange={(v) => update("dotSize", v)}
                   step={1}
                   min={15}
                   max={30}
