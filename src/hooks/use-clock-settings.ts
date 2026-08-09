@@ -9,7 +9,7 @@ export type ClockSettings = {
   showSeconds: boolean;
   showDate: boolean;
   showGrid: boolean;
-  scale: number; // dot size
+  dotSize: number;
   dotRoundness: number;
   dotGap: number;
   glow: number;
@@ -29,7 +29,7 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   showSeconds: false,
   showDate: true,
   showGrid: true,
-  scale: 20,
+  dotSize: 20,
   dotRoundness: 10,
   dotGap: 20,
   glow: 55,
