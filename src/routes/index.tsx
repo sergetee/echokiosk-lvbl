@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Settings } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { PixelMatrix } from "@/components/PixelMatrix";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useClockSettings, type ClockSettings } from "@/hooks/use-clock-settings";
@@ -170,17 +170,18 @@ function Kiosk() {
       <div className="kiosk-vignette" />
 
       <button
-        onClick={() => setOpen(true)}
-        aria-label="Open kiosk settings"
-        aria-hidden={!showFab || open}
-        tabIndex={showFab && !open ? 0 : -1}
-        className={`kiosk-fab fixed bottom-6 left-6 z-40 rounded-full p-3 transition-opacity duration-300 ${
-          showFab && !open
-            ? "pointer-events-auto opacity-70 hover:opacity-100"
-            : "pointer-events-none opacity-0"
+        onClick={() => (open ? setOpen(false) : setOpen(true))}
+        aria-label={open ? "Close settings" : "Open kiosk settings"}
+        tabIndex={showFab || open ? 0 : -1}
+        className={`kiosk-fab fixed left-6 z-50 rounded-full p-3 transition-all duration-300 ${
+          open
+            ? "bottom-[calc(var(--panel-height,#0px)+1.5rem)] pointer-events-auto opacity-100"
+            : showFab
+            ? "bottom-6 pointer-events-auto opacity-70 hover:opacity-100"
+            : "bottom-6 pointer-events-none opacity-0"
         }`}
       >
-        <Settings className="size-5" />
+        {open ? <X className="size-5" /> : <Settings className="size-5" />}
       </button>
 
       <SettingsPanel
