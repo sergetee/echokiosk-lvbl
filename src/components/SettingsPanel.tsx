@@ -200,7 +200,6 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
   if (!mounted) return null;
 
   return (
-    <>
       <aside
         ref={panelRef}
         className={`kiosk-panel flex-col gap-1 p-6 ${
@@ -211,7 +210,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           if (!visible && !open) setMounted(false);
         }}
 
-      {/*TABS*/}
+      {/* TABS ------------------------------------------------------------ */}
       <div className="mb-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
         <button
           onClick={() => setActiveTab("themes")}
