@@ -286,6 +286,7 @@
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: 5em;
+  width: max-content;
 }
 
 @media (prefers-reduced-motion: reduce) {
