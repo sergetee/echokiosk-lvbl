@@ -138,11 +138,11 @@ function Kiosk() {
 
   return (
     <main
-      className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass} ${settings.scanlines ? "kiosk-scanlines" : ""}`}
+      className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass}`}
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`clockface gap-[12vh] ${dimmed ? "dimmed" : ""}`}
+        className={`clockface gap-[12vh] ${dimmed ? "dimmed" : ""} ${settings.scanlines ? "kiosk-scanlines" : ""}`}
         style={{ transition: "opacity 1200ms linear" }}
       >
         {loaded && now && (
