@@ -175,7 +175,7 @@ function Kiosk() {
         tabIndex={showFab || open ? 0 : -1}
         className={`kiosk-fab fixed left-6 z-50 rounded-full p-3 transition-all duration-300 ${
           open
-            ? "bottom-[calc(var(--panel-height)+1.5rem)] pointer-events-auto opacity-100"
+            ? "bottom-[calc(var(--panel-height,0px)+1.5rem)] pointer-events-auto opacity-100"
             : showFab
             ? "bottom-6 pointer-events-auto opacity-70 hover:opacity-100"
             : "bottom-6 pointer-events-none opacity-0"
