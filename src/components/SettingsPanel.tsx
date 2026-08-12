@@ -209,6 +209,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
           if (!visible && !open) setMounted(false);
         }}
+      >
 
       {/* TABS ------------------------------------------------------------ */}
       <div className="mb-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
