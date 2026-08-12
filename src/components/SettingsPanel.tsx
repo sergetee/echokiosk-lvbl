@@ -182,7 +182,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         }}
       />
       <aside
-        className={`kiosk-panel fixed top-0 right-0 z-50 flex h-full w-[min(22rem,100vw)] flex-col gap-1 overflow-y-auto p-6 ${
+        className={`kiosk-panel flex-col gap-1 p-6 ${
           visible ? "kiosk-panel-visible" : ""
         }`}
         onTransitionEnd={(e) => {
