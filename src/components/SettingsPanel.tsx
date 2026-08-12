@@ -210,17 +210,6 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
           if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
           if (!visible && !open) setMounted(false);
         }}
-      >
-        
-      {/* HEADER ------------------------------------------------------------ */}
-      <div className="mb-2 flex items-center justify-between">
-        <button aria-label="Close settings" class="kiosk-fab left-6 z-40 rounded-full p-3">
-          <X className="size-4" />
-        </button>
-        <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
-          <X className="size-4" />
-        </Button>
-      </div>
 
       {/* TABS ------------------------------------------------------------ */}
       <div className="mb-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
@@ -286,7 +275,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {activeTab === "font" && (
           <div className="space-y-4">
             <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-            <div className="mt-2 mb-6 grid grid-cols-2 gap-2">
+            <div className="mt-2 mb-6 grid grid-cols-3 gap-2">
               {PIXEL_FONTS.map((f) => (
                 <button
                   key={f.id}
