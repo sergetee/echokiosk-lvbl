@@ -268,7 +268,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                 key={f.id}
                 onClick={() => update("font", f.id)}
                 aria-pressed={settings.font === f.id}
-                className={`rounded-md border px-3 py-3 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
+                className={`rounded-md border px-3 py-3 text-s font-semibold uppercase tracking-[0.12em] transition-colors ${
                   settings.font === f.id
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -283,7 +283,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {/* DOTS ------------------------------------------------------------ */} 
         {activeTab === "dots" && (
           <div className="space-y-4">
-             <div className="mb-8 grid grid-cols-3 gap-3">
+             <div className="mb-8 grid grid-cols-4 gap-3">
               {/* SCALE ------------------------------------------------------------ */} 
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot size</p>
@@ -342,7 +342,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {/* MODULES ------------------------------------------------------------ */} 
         {activeTab === "modules" && (
           <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-5">
               {TOGGLES.map(({ key, label }) => {
                 const active = settings[key] as boolean;
                 return (
@@ -350,7 +350,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                     key={key}
                     onClick={() => update(key, !active as ClockSettings[typeof key])}
                     aria-pressed={active}
-                    className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                    className={`rounded-md border px-3 py-3 text-s tracking-[0.14em] uppercase transition-colors ${
                       active
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -367,8 +367,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {/* DIMMER ------------------------------------------------------------ */} 
         {activeTab === "dimmer" && (
           <div className="space-y-4">
-            <div className="mt-6 rounded-md border border-border p-3">
-              <div className="mb-2">
+          
                 <button
                   onClick={() => update("dim", !settings.dim)}
                   aria-pressed={settings.dim}
@@ -380,7 +379,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                  >
                   DIM
                 </button>
-              </div>
+       
               <div className={settings.dim ? "" : "pointer-events-none opacity-40"}>
                 <div className="grid grid-cols-2 gap-3">
                   <TimeStepper
@@ -401,7 +400,6 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   />
                 </div>
               </div>
-            </div>
           </div>
         )}
       </div>
