@@ -214,7 +214,9 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         
       {/* HEADER ------------------------------------------------------------ */}
       <div className="mb-2 flex items-center justify-between">
-        <h2 className="text-sm font-semibold tracking-[0.22em] uppercase">SETTINGS</h2>
+        <button aria-label="Close settings" class="kiosk-fab left-6 z-40 rounded-full p-3">
+          <X className="size-4" />
+        </button>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
           <X className="size-4" />
         </Button>
