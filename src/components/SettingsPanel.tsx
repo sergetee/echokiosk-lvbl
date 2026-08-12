@@ -200,7 +200,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
   if (!mounted) return null;
 
   return (
-    /*<>*/
+    <>
       <aside
         ref={panelRef}
         className={`kiosk-panel flex-col gap-1 p-6 ${
