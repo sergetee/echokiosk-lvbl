@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
@@ -151,6 +151,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(open);
   const [activeTab, setActiveTab] = useState<Tab>("themes");
+  const panelRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -167,21 +168,41 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
     setVisible(false);
   }, [open]);
 
+  // Обработка клика ВНЕ панели
+  useEffect(() => {
+    if (!open) return;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+
+      // Игнорируем клики ВНУТРИ панели и по кнопке вызова (FAB)
+      if (
+        (panelRef.current && panelRef.current.contains(target)) ||
+        (target as HTMLElement).closest(".kiosk-fab")
+      ) {
+        return;
+      }
+
+      onClose();
+    };
+
+    // Слушатель регистрируется в следующем тике, чтобы клик открытия не закрыл панель сразу
+    const timer = setTimeout(() => {
+      window.addEventListener("pointerdown", handlePointerDown);
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [open, onClose]);
+
   if (!mounted) return null;
 
   return (
-    <>
-      <div
-        className={`fixed inset-0 z-40 transition-opacity duration-300 ${
-          visible ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        aria-hidden
-        onPointerDown={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-      />
+    /*<>*/
       <aside
+        ref={panelRef}
         className={`kiosk-panel flex-col gap-1 p-6 ${
           visible ? "kiosk-panel-visible" : ""
         }`}
@@ -240,7 +261,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         {activeTab === "themes" && (
           <div className="space-y-4">
             <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">COLOR</p>
-            <div className="mt-2 mb-4 grid grid-cols-3 gap-5">
+            <div className="mt-2 mb-4 flex flex-row gap-5">
               {THEMES.map((t) => (
                 <button
                   key={t.id}
