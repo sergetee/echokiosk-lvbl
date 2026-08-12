@@ -152,6 +152,8 @@
   --dot-off: oklch(0.22 0.03 65);
   --dot-glow: oklch(0.8 0.17 70 / 45%);
   --kiosk-ink: oklch(0.84 0.16 75 / 70%);
+  --panel-height: 240px;
+  
   display: flex;
   flex-direction: column;
   height: 100dvh; /* Использование dvh решает проблемы с мобильной шторкой */
@@ -234,7 +236,6 @@
 
 /* SETTINGS */
 .kiosk-panel {
-  --panel-height: 240px;
   height: var(--panel-height);
   width: 100%;
   max-height: 0;
