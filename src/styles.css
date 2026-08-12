@@ -217,6 +217,7 @@
 .kiosk-panel {
   position: fixed;
   bottom: 0;
+  height: 20vh;
   width: 100vw;
   z-index: 50;
   display: flex;
