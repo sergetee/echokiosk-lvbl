@@ -281,6 +281,13 @@
   width: 60px;
 }
 
+.buttons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 5em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kiosk-panel {
     transition: none;
