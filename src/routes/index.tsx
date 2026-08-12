@@ -128,10 +128,6 @@ function Kiosk() {
   // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
 
-  //const { timeText, dateText } = now
-  //  ? formatClockData(now, settings.blinkColon, settings.showSeconds)
-  //  : { timeText: "", dateText: "" };
-
   const { timeText, dateText, isColonVisible } = formatClockData(
     now, 
     settings.blinkColon, 
@@ -146,7 +142,7 @@ function Kiosk() {
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`flex min-h-screen flex-col items-center justify-center gap-[12vh] ${dimmed ? "dimmed" : ""}`}
+        className={`clockface gap-[12vh] ${dimmed ? "dimmed" : ""}`}
         style={{ transition: "opacity 1200ms linear" }}
       >
         {loaded && now && (
