@@ -262,28 +262,21 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         
         {/* FONT ------------------------------------------------------------ */}
         {activeTab === "font" && (
-          <div className="flex flex-row">
-            <div>
-            <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
-            <div className="mt-2 mb-6 grid grid-cols-3 gap-2">
-              {PIXEL_FONTS.map((f) => (
-                <button
-                  key={f.id}
-                  onClick={() => update("font", f.id)}
-                  aria-pressed={settings.font === f.id}
-                  className={`rounded-md border px-3 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
-                    settings.font === f.id
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
-                >
-                  {f.name}
-                </button>
-              ))}
-            </div>
-            </div>
-              
-           
+          <div className="buttons">
+            {PIXEL_FONTS.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => update("font", f.id)}
+                aria-pressed={settings.font === f.id}
+                className={`rounded-md border px-3 py-3 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
+                  settings.font === f.id
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                {f.name}
+              </button>
+            ))}
           </div>
         )}
 
