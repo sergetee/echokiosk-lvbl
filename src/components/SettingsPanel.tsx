@@ -247,7 +247,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   onClick={() => update("theme", t.id)}
                   aria-label={t.label}
                   title={t.label}
-                  className={`aspect-square rounded-md border transition-transform hover:scale-105 ${
+                  className={`button-theme rounded-md border transition-transform hover:scale-105 ${
                     settings.theme === t.id
                       ? "border-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
                       : "border-border"
