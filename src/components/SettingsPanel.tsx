@@ -410,6 +410,5 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
       </div>
 
       </aside>
-    </>
   );
 }
