@@ -273,7 +273,8 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
         
         {/* FONT ------------------------------------------------------------ */}
         {activeTab === "font" && (
-          <div className="space-y-4">
+          <div className="flex flex-row">
+            <div>
             <p className="text-xs tracking-[0.18em] uppercase text-muted-foreground">FONT</p>
             <div className="mt-2 mb-6 grid grid-cols-3 gap-2">
               {PIXEL_FONTS.map((f) => (
@@ -290,6 +291,7 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
                   {f.name}
                 </button>
               ))}
+            </div>
             </div>
               
             <div className="mb-8 grid grid-cols-2 gap-3">
