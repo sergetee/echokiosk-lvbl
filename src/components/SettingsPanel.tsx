@@ -4,7 +4,16 @@ import { Button } from "@/components/ui/button";
 import type { ClockSettings, ThemeName } from "@/hooks/use-clock-settings";
 import { PIXEL_FONTS } from "@/lib/pixel-font";
 
-type Tab = "theme" | "font" | "misc";
+//type Tab = "theme" | "font" | "dots" | "effects" | "modules" | "dimmer";
+
+const TABS = [
+  { id: "themes", label: "Themes" },
+  { id: "font", label: "Font" },
+  { id: "dots", label: "Dots" },
+  { id: "effects", label: "Effects" },
+  { id: "modules", label: "Modules" },
+  { id: "dimmer", label: "Dimmer" },
+] as const;
 
 const pad2 = (n: number) => n.toString().padStart(2, "0");
 
@@ -131,13 +140,6 @@ const TOGGLES: { key: keyof ClockSettings; label: string }[] = [
   { key: "phosphorDecay", label: "Phosphor decay"}
 ];
 
-/*type Props = {
-  open: boolean;
-  settings: ClockSettings;
-  update: <K extends keyof ClockSettings>(k: K, v: ClockSettings[K]) => void;
-  onClose: () => void;
-};*/
-
 interface Props {
   open: boolean;
   settings: ClockSettings;
@@ -213,36 +215,23 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
 
       {/* TABS ------------------------------------------------------------ */}
       <div className="mb-4 flex gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-1">
-        <button
-          onClick={() => setActiveTab("themes")}
-          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "themes"
-              ? "bg-slate-800 text-slate-100 shadow-sm"
-              : "text-slate-400 hover:text-slate-200"
-          }`}
-        >
-          Themes
-        </button>
-        <button
-          onClick={() => setActiveTab("font")}
-          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "font"
-              ? "bg-slate-800 text-slate-100 shadow-sm"
-              : "text-slate-400 hover:text-slate-200"
-          }`}
-        >
-          Font
-        </button>
-        <button
-          onClick={() => setActiveTab("misc")}
-          className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
-            activeTab === "misc"
-              ? "bg-slate-800 text-slate-100 shadow-sm"
-              : "text-slate-400 hover:text-slate-200"
-          }`}
-        >
-          Misc
-        </button>
+        {TABS.map(({ id, label }) => {
+          const isActive = activeTab === id;
+
+          return (
+            <button
+              key={id}
+              onClick={() => setActiveTab(id)}
+              className={`flex-1 rounded-md py-2 text-xs font-medium transition-all ${
+                isActive
+                  ? "bg-slate-800 text-slate-100 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* TAB CONTENT ------------------------------------------------------------ */}
@@ -294,7 +283,14 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
             </div>
             </div>
               
-            <div className="mb-8 grid grid-cols-2 gap-3">
+           
+          </div>
+        )}
+
+        {/* DOTS ------------------------------------------------------------ */} 
+        {activeTab === "dots" && (
+          <div className="space-y-4">
+             <div className="mb-8 grid grid-cols-3 gap-3">
               {/* SCALE ------------------------------------------------------------ */} 
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot size</p>
@@ -347,30 +343,36 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-                {TOGGLES.map(({ key, label }) => {
-                  const active = settings[key] as boolean;
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => update(key, !active as ClockSettings[typeof key])}
-                      aria-pressed={active}
-                      className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
-                        active
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
           </div>
         )}
 
-        {/* MISC ------------------------------------------------------------ */} 
-        {activeTab === "misc" && (
+        {/* MODULES ------------------------------------------------------------ */} 
+        {activeTab === "modules" && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-2">
+              {TOGGLES.map(({ key, label }) => {
+                const active = settings[key] as boolean;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => update(key, !active as ClockSettings[typeof key])}
+                    aria-pressed={active}
+                    className={`rounded-md border px-3 py-3 text-xs tracking-[0.14em] uppercase transition-colors ${
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-secondary/40 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* DIMMER ------------------------------------------------------------ */} 
+        {activeTab === "dimmer" && (
           <div className="space-y-4">
             <div className="mt-6 rounded-md border border-border p-3">
               <div className="mb-2">
