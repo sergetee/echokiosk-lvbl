@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { FONT_MAPS, SEGMENT_MAP, type PixelFontId, type SegmentName } from "@/lib/pixel-font";
 import "./pixel-matrix.css";
 
@@ -103,6 +103,9 @@ export function PixelMatrix({
     ...rootStyle,
     "--cols": baseCols,
   } as React.CSSProperties;
+  // Memoize the parsed matrices for the current `text`+`font` to avoid
+  // recomputing glyph matrices on every render when not necessary.
+  const matrices = useMemo(() => chars.map((c) => getCharMatrix(c, fontMap)), [text, font]);
 
   return (
     <div
@@ -112,9 +115,8 @@ export function PixelMatrix({
       style={combinedStyle}
       aria-hidden
     >
-
     {chars.map((char, charIdx) => {
-      const matrix = getCharMatrix(char, fontMap);
+      const matrix = matrices[charIdx];
       const isColon = char === ":";
       const isSpace = char === " ";
 
@@ -147,3 +149,8 @@ export function PixelMatrix({
   );
   
 }
+
+// Use React.memo to avoid re-rendering when parent updates unrelated state.
+export const MemoizedPixelMatrix = React.memo(PixelMatrix);
+
+export { MemoizedPixelMatrix as PixelMatrix };

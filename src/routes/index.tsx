@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Settings, X } from "lucide-react";
 import { PixelMatrix } from "@/components/PixelMatrix";
-import { SettingsPanel } from "@/components/SettingsPanel";
+const SettingsPanel = React.lazy(() => import("@/components/SettingsPanel").then((m) => ({ default: m.SettingsPanel })));
 import { useClockSettings, type ClockSettings } from "@/hooks/use-clock-settings";
 
 export const Route = createFileRoute("/")({
@@ -68,8 +68,23 @@ function Kiosk() {
   // Обновление текущего времени
   useEffect(() => {
     setNow(new Date());
-    const id = window.setInterval(() => setNow(new Date()), 500);
-    return () => window.clearInterval(id);
+    // Align updates to wall clock seconds to reduce unnecessary ticks and
+    // run once-per-second when seconds are shown. Older tablets benefit from
+    // fewer updates and aligned ticks.
+    const tick = () => setNow(new Date());
+    const nowMs = new Date().getMilliseconds();
+    const timeoutId = window.setTimeout(() => {
+      tick();
+      const id = window.setInterval(tick, 1000);
+      // store on window so cleanup can clear both if necessary
+      (window as any).__echokiosk_clockInterval = id;
+    }, 1000 - nowMs);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      const id = (window as any).__echokiosk_clockInterval;
+      if (id) window.clearInterval(id);
+    };
   }, []);
 
   const toggleFullscreen = useCallback(() => {
@@ -184,12 +199,14 @@ function Kiosk() {
         {open ? <X className="size-5" /> : <Settings className="size-5" />}
       </button>
 
-      <SettingsPanel
-        open={open}
-        settings={settings}
-        update={update}
-        onClose={() => setOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <SettingsPanel
+          open={open}
+          settings={settings}
+          update={update}
+          onClose={() => setOpen(false)}
+        />
+      </Suspense>
     </main>
   );
 }
