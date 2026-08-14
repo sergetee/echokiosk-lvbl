@@ -36,7 +36,7 @@ function getCharMatrix(char: string, fontMap: Record<string, string[]>): boolean
   return glyph.map((line) => line.split("").map((c) => c === "#"));
 }
 
-export function PixelMatrix({
+function PixelMatrix({
   text,
   font = "classic",
   isColonVisible = true,
