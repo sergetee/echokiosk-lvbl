@@ -48,7 +48,6 @@ function parseFontFile(rawText: string): { meta: FontMeta; glyphs: Record<string
 
   for (let i = 1; i < blocks.length; i += 2) {
     let charKey = blocks[i].trim();
-    if (charKey === "SPACE") charKey = " ";
 
     const lines = blocks[i + 1]
       .split("\n")

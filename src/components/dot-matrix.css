@@ -1,11 +1,29 @@
-.pixel-matrix {
+.clockface {
   --dot: 6px;
-  --dot-gap-ratio: 10;
+  --dot-gap-ratio: .1;
   --dot-roundness: 20%;
   --glow: 0px;
   --transition-ease: cubic-bezier(0, 0, 0.2, 1);
   --transition: .22s var(--transition-ease);
+}
 
+/* Dot grid */
+.clockface[data-show-grid="false"] [data-on="false"] { opacity: 0; }
+
+/* Плавный спад только если включён переключатель */
+.clockface[data-phosphor-decay="true"] .pixel-dot:not([data-on="true"]) {
+  --transition-ease: cubic-bezier(0, 0, 0.2, 1);
+  --transition: .3s var(--transition-ease);
+  transition: 
+    background-color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition);
+}
+.clockface[data-phosphor-decay="true"] .pixel-dot[data-on="true"] {
+  transition: none;
+}
+
+.pixel-matrix {
   --char-width: calc(
     (var(--cols) * var(--dot)) + 
     ((var(--cols) - 1) * var(--dot-gap))
@@ -15,35 +33,45 @@
   align-items: center;
 }
 
-/* Dot grid */
-.pixel-matrix[data-show-grid="false"] [data-on="false"] { opacity: 0; }
-
 .dimmed { opacity: .5; }
-
 
 /* ============================== MODE 1: DOT MATRIX ============================== */
 
 .clock {
   --char-gap-ratio: .4;
   --dot-size: var(--dot);
-  --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100, 1px);
-  gap: round(var(--char-width) * var(--char-gap-ratio), 1px); /* Gap between characters */
+  --dot-gap: round(var(--dot) * var(--dot-gap-ratio), 1px);
+  /* Gap between groups */
+  gap: round(var(--char-width) * var(--char-gap-ratio), 1px);
 }
 .date  {
   --date-size-ratio: .35;
   --char-gap-ratio: .5;
   --dot-size: round(var(--dot) * var(--date-size-ratio), 1px);
-  --dot-gap: round(var(--dot) * var(--dot-gap-ratio) / 100 * var(--date-size-ratio), 1px);
-  gap: round(var(--char-width) * var(--char-gap-ratio) * var(--date-size-ratio), 1px); /* Gap between characters */
+  --dot-gap: round(var(--dot) * var(--dot-gap-ratio) * var(--date-size-ratio), 1px);
+  /* Gap between groups */
+  gap: round(var(--char-width) * var(--char-gap-ratio), 1px);
 }
 
-.pixel-char, .pixel-row {
+.pixel-group {
+  display: flex;
+}
+
+.clock .pixel-group {
+  /* Gap between characters */
+  gap: round(var(--char-width) * var(--char-gap-ratio), 1px);
+}
+.date .pixel-group {
+  /* Gap between characters */
+  gap: round(var(--char-width) * var(--char-gap-ratio) * var(--date-size-ratio), 1px);
+}
+
+.pixel-char {
   display: grid;
   gap: var(--dot-gap);
+  grid-auto-flow: row;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
 }
-
-.pixel-char { grid-auto-flow: row; }
-.pixel-row  { grid-auto-flow: column; }
 
 .pixel-dot {
   border-radius: calc(var(--dot-roundness) / 2 * 1%);
@@ -60,21 +88,6 @@
   background-color: var(--dot-on, #00ff66);
   box-shadow: 0 0 var(--glow) var(--dot-glow, #00ff66);
 }
-
-/* Плавный спад только если включён переключатель */
-.pixel-matrix[data-phosphor-decay="true"] .pixel-dot:not([data-on="true"]) {
-  --transition-ease: cubic-bezier(0, 0, 0.2, 1);
-  --transition: .3s var(--transition-ease);
-  transition: 
-    background-color var(--transition),
-    box-shadow var(--transition),
-    opacity var(--transition);
-}
-
-.pixel-matrix[data-phosphor-decay="true"] .pixel-dot[data-on="true"] {
-  transition: none;
-}
-
 
 /* ============================== MODE 2: 7-SEGMENT INDICATOR ============================== */
 

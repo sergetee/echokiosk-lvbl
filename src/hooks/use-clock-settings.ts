@@ -11,7 +11,7 @@ export type ClockSettings = {
   showGrid: boolean;
   dotSize: number;
   dotRoundness: number;
-  dotGap: number;
+  dotGapRatio: number;
   glow: number;
   blinkColon: boolean;
   scanlines: boolean;
@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: ClockSettings = {
   showGrid: true,
   dotSize: 20,
   dotRoundness: 10,
-  dotGap: 20,
+  dotGapRatio: 0.2,
   glow: 55,
   blinkColon: true,
   scanlines: true,

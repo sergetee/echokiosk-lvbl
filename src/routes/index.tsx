@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Settings, X } from "lucide-react";
-import { PixelMatrix } from "@/components/PixelMatrix";
+import { PixelMatrix, type PixelGroupItem } from "@/components/PixelMatrix";
 const SettingsPanel = React.lazy(() => import("@/components/SettingsPanel").then((m) => ({ default: m.SettingsPanel })));
 import { useClockSettings, type ClockSettings } from "@/hooks/use-clock-settings";
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 });
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",];
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const FAB_HIDE_MS = 4000;
 const pad = (n: number) => n.toString().padStart(2, "0");
 
@@ -36,13 +36,30 @@ function formatClockData(now: Date = new Date(), blinkColon: boolean, showSecond
   const m = now.getMinutes();
   const s = now.getSeconds();
 
-  // Colon is always visible if blinking is off (!blinkColon) OR on even seconds
   const isColonVisible = !blinkColon || s % 2 === 0;
-  
-  let timeText = `${pad(h)}:${pad(m)}`;
-  if (showSeconds) { timeText += `:${pad(s)}`; }
-  const dateText = `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]}`;
-  return { timeText, dateText, isColonVisible };
+
+  // Формируем группы для часов
+  const timeItems: PixelGroupItem[] = [
+    { id: "h", text: pad(h), className: "hours" },
+    { id: "c1", text: ":", className: "colon" },
+    { id: "m", text: pad(m), className: "minutes" },
+  ];
+
+  if (showSeconds) {
+    timeItems.push(
+      { id: "c2", text: ":", className: "colon colon-seconds" },
+      { id: "s", text: pad(s), className: "seconds" }
+    );
+  }
+
+  // Формируем группы для даты
+  const dateItems: PixelGroupItem[] = [
+    { id: "dn", text: DAYS[now.getDay()], className: "day-name" },
+    { id: "d", text: pad(now.getDate()), className: "day-number" },
+    { id: "m", text: MONTHS[now.getMonth()], className: "month" },
+  ];
+
+  return { timeItems, dateItems, isColonVisible };
 }
 
 function calculateIsDimmed(now: Date, settings: ClockSettings): boolean {
@@ -58,25 +75,19 @@ function calculateIsDimmed(now: Date, settings: ClockSettings): boolean {
 
 function Kiosk() {
   const { settings, update, loaded } = useClockSettings();
-  //const [now, setNow] = useState<Date | null>(null);
   const [now, setNow] = useState<Date>(() => new Date());
   const [open, setOpen] = useState(false);
   const [showFab, setShowFab] = useState(false);
 
   const hideFabRef = useRef<number | null>(null);
 
-  // Обновление текущего времени
   useEffect(() => {
     setNow(new Date());
-    // Align updates to wall clock seconds to reduce unnecessary ticks and
-    // run once-per-second when seconds are shown. Older tablets benefit from
-    // fewer updates and aligned ticks.
     const tick = () => setNow(new Date());
     const nowMs = new Date().getMilliseconds();
     const timeoutId = window.setTimeout(() => {
       tick();
       const id = window.setInterval(tick, 1000);
-      // store on window so cleanup can clear both if necessary
       (window as any).__echokiosk_clockInterval = id;
     }, 1000 - nowMs);
 
@@ -110,7 +121,6 @@ function Kiosk() {
     }, FAB_HIDE_MS);
   }, [clearFabTimer]);
 
-  // Сброс таймера при открытой панели настроек
   useEffect(() => {
     if (open) {
       clearFabTimer();
@@ -121,7 +131,6 @@ function Kiosk() {
 
   useEffect(() => () => clearFabTimer(), [clearFabTimer]);
 
-  // Горячие клавиши
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
@@ -140,10 +149,9 @@ function Kiosk() {
     revealFab();
   };
 
-  // Вычисляемые данные
   const themeClass = settings.theme === "amber" ? "" : `kiosk-${settings.theme}`;
 
-  const { timeText, dateText, isColonVisible } = formatClockData(
+  const { timeItems, dateItems, isColonVisible } = formatClockData(
     now, 
     settings.blinkColon, 
     settings.showSeconds
@@ -151,31 +159,45 @@ function Kiosk() {
   
   const dimmed = now ? calculateIsDimmed(now, settings) : false;
 
+  const glowPx = settings.glow > 0 
+    ? `${settings.dotSize * (settings.glow / 35)}px` 
+    : "0";
+  
+  const clockfaceStyle = {
+    "--dot": `${settings.dotSize}px`,
+    "--dot-roundness": `${settings.dotRoundness}`,
+    "--dot-gap-ratio": `${settings.dotGapRatio}`,
+    "--glow": settings.glow > 0 ? `${settings.dotSize * (settings.glow / 35)}px` : "0",
+    transition: "opacity 1200ms linear",
+} as React.CSSProperties;
+
   return (
     <main
       className={`kiosk relative min-h-screen overflow-hidden select-none ${themeClass}`}
       onPointerDown={handleScreenPointerDown}
     >
       <div
-        className={`clockface gap-[12vh] ${dimmed ? "dimmed" : ""} ${settings.scanlines ? "kiosk-scanlines" : ""}`}
-        style={{ transition: "opacity 1200ms linear" }}
-      >
+        className={`clockface gap-[12vh] ${dimmed ? "dimmed" : ""} ${
+          settings.scanlines ? "kiosk-scanlines" : ""
+        }`}
+        data-show-grid={settings.showGrid}
+        data-phosphor-decay={settings.phosphorDecay}
+        style={clockfaceStyle}
+        >
         {loaded && now && (
           <>
             <PixelMatrix
               className="clock"
-              text={timeText}
+              items={timeItems}
               font={settings.font}
               isColonVisible={isColonVisible}
-              settings={settings}
             />
             
             {settings.showDate && (
               <PixelMatrix
                 className="date"
-                text={dateText}
+                items={dateItems}
                 font={settings.font}
-                settings={settings}
               />
             )}
           </>

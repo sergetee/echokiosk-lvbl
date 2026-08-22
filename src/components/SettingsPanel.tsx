@@ -314,8 +314,8 @@ export function SettingsPanel({ open, settings, update, onClose }: Props) {
               <div className="text-center">
                 <p className="mb-2 text-xs tracking-[0.18em] uppercase text-muted-foreground">Dot gap</p>
                 <Stepper
-                  value={settings.dotGap}
-                  onChange={(v) => update("dotGap", v)}
+                  value={Math.round(settings.dotGapRatio * 100)}
+                  onChange={(v) => update("dotGapRatio", v / 100)}
                   step={10}
                   min={0}
                   max={100}
